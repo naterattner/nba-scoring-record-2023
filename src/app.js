@@ -1,3 +1,3 @@
 import { scaleBand, ScaleBand } from "d3";
 
-console.log('hello')
+console.log('hello test')
