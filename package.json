@@ -10,11 +10,13 @@
     "push-gh-pages": "push-dir --dir=dist --branch=gh-pages --cleanup --verbose"
   },
   "devDependencies": {
-    "parcel": "^2.8.3"
+    "parcel": "^2.8.3",
+    "parcel-transformer-csv": "^0.0.3"
   },
   "dependencies": {
     "d3": "^7.8.3",
     "push-dir": "^0.4.1",
+    "requirejs": "^2.3.6",
     "shx": "^0.3.2"
   }
 }
