@@ -2559,6 +2559,7 @@ __metadata:
     parcel-transformer-csv: ^0.0.3
     push-dir: ^0.4.1
     requirejs: ^2.3.6
+    scrollama: ^3.2.0
     shx: ^0.3.2
   languageName: unknown
   linkType: soft
@@ -3008,6 +3009,13 @@ __metadata:
   version: 2.1.2
   resolution: "safer-buffer@npm:2.1.2"
   checksum: cab8f25ae6f1434abee8d80023d7e72b598cf1327164ddab31003c51215526801e40b66c5e65d658a0af1e9d6478cadcb4c745f4bd6751f97d8644786c0978b0
+  languageName: node
+  linkType: hard
+
+"scrollama@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "scrollama@npm:3.2.0"
+  checksum: 98a8a0fb5528b0da6e0882503385b7d3800c25c9d3aa975da215ad32e98810c0fa044cb7da395e4a457735d10133eed6286bd095f2d4d936a80f4756310798eb
   languageName: node
   linkType: hard
 

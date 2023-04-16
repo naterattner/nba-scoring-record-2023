@@ -1,11 +1,10 @@
 import { scaleBand, ScaleBand } from "d3";
-import { csv } from "d3";
-import { dsv } from "d3";
 // import * as d3 from "d3";
-import { json } from "d3";
-
+// import { json } from "d3";
+import scrollama from "scrollama"; // or...
 
 console.log('hello test')
+console.log(scrollama)
 
 /* CONSTANTS AND GLOBALS */
 // const width = ,
@@ -26,8 +25,8 @@ let state = {
 	selection: "All", // + YOUR FILTER SELECTION
   };
   
-  /* LOAD DATA */
-  // + SET YOUR DATA PATH
+/* LOAD DATA */
+// + SET YOUR DATA PATH
 import('../data/20230326_quintiles_player_bins.json').then(data => {
     console.log("loaded data:", data);
     state.data = data;
