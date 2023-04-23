@@ -1,5 +1,12 @@
+// import 'regenerator-runtime/runtime'
+
 import { scaleBand, ScaleBand } from "d3";
-import * as d3 from "d3";
+// import * as d3 from "d3";
+const d3 = require('d3');
+
+
+
+// import * as d3 from "d3";
 
 
 // import { json } from "d3";

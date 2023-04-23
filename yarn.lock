@@ -1525,7 +1525,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"d3-selection@npm:2 - 3, d3-selection@npm:3":
+"d3-selection@npm:2 - 3, d3-selection@npm:3, d3-selection@npm:^3.0.0":
   version: 3.0.0
   resolution: "d3-selection@npm:3.0.0"
   checksum: f4e60e133309115b99f5b36a79ae0a19d71ee6e2d5e3c7216ef3e75ebd2cb1e778c2ed2fa4c01bef35e0dcbd96c5428f5bd6ca2184fe2957ed582fde6841cbc5
@@ -2555,6 +2555,7 @@ __metadata:
   resolution: "nba-scoring-record-2023@workspace:."
   dependencies:
     d3: ^7.8.3
+    d3-selection: ^3.0.0
     parcel: ^2.8.3
     parcel-transformer-csv: ^0.0.3
     push-dir: ^0.4.1
