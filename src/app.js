@@ -7,17 +7,19 @@ console.log('hello test')
 
 
 /* CONSTANTS AND GLOBALS */
-// const width = ,
-//   height = ,
-//   margin = ,
-//   radius = ;
+const width = window.innerWidth * 0.7,
+  height = window.innerHeight * 0.7,
+  margin = { top: 20, bottom: 50, left: 60, right: 60 };
 
-
+  
 // these variables allow us to access anything we manipulate in init() but need access to in draw().
 // All these variables are empty before we assign something to them.
-// let svg;
-// let xScale;
-// let yScale; ...
+let svg;
+let xScale; // maybe move this to const -- won't change by data
+let yScale;
+let yAxis;
+let xAxisGroup; // maybe move this to const -- won't change by data
+let yAxisGroup;
 
 // these are variables set up for use in the scrolly
 const main = d3.select("main");
@@ -56,7 +58,7 @@ function init() {
 		.setup({
 			step: "#scrolly article .step",
 			offset: 0.33,
-			debug: true
+			debug: false
 		})
 		.onStepEnter(handleStepEnter);
 
