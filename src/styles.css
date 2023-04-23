@@ -1,7 +1,7 @@
 /* PAGE ELEMENTS */
 
 h1 {
-	color: turquoise; 
+	color: turquoise !important;
 }
 
 p,
@@ -10,70 +10,70 @@ h2,
 h3,
 h4,
 a {
-  margin: 0;
-  font-weight: 400;
+  margin: 0 !important;
+  font-weight: 400 !important;
 }
 
 
 /* SCROLL ELEMENTS */
 #scrolly {
-	position: relative;
-	background-color: #f3f3f3;
-	padding: 1rem;
+	position: relative !important;
+	background-color: #f3f3f3 !important;
+	padding: 1rem !important;
 }
 
 article {
-	position: relative;
-	padding: 0;
-	max-width: 20rem;
-	margin: 0 auto;
+	position: relative !important;
+	padding: 0 !important;
+	max-width: 20rem !important;
+	margin: 0 auto !important;
 }
 
 figure {
-	position: -webkit-sticky;
-	position: sticky;
-	left: 0;
+	position: -webkit-sticky !important;
+	position: sticky !important;
+	left: 0 !important;
 	/* width: 100%; */
-	margin: 0;
-	-webkit-transform: translate3d(0, 0, 0);
-	-moz-transform: translate3d(0, 0, 0);
-	transform: translate3d(0, 0, 0);
-	background-color: #8a8a8a;
-	z-index: 0;
+	margin: 0 !important;
+	-webkit-transform: translate3d(0, 0, 0) !important;
+	-moz-transform: translate3d(0, 0, 0) !important;
+	transform: translate3d(0, 0, 0) !important;
+	background-color: #8a8a8a !important;
+	z-index: 0 !important;
 }
 
 figure p {
-	text-align: center;
-	padding: 1rem;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	-moz-transform: translate(-50%, -50%);
-	-webkit-transform: translate(-50%, -50%);
-	transform: translate(-50%, -50%);
-	font-size: 8rem;
-	font-weight: 900;
-	color: #fff;
+	text-align: center !important;
+	padding: 1rem !important;
+	position: absolute !important;
+	top: 50% !important;
+	left: 50% !important;
+	-moz-transform: translate(-50%, -50%) !important;
+	-webkit-transform: translate(-50%, -50%) !important;
+	transform: translate(-50%, -50%) !important;
+	font-size: 8rem !important;
+	font-weight: 900 !important;
+	color: #fff !important;
 }
 
 .step {
-	margin: 0 auto 2rem auto;
-	color: #fff;
-	background-color: rgba(0, 0, 0, 0.1);
+	margin: 0 auto 2rem auto !important;
+	color: #fff !important;
+	background-color: rgba(0, 0, 0, 0.1) !important;
 }
 
 .step:last-child {
-	margin-bottom: 0;
+	margin-bottom: 0 !important;
 }
 
 .step.is-active p {
-	background-color: goldenrod;
-	color: #3b3b3b;
+	background-color: goldenrod !important;
+	color: #3b3b3b !important;
 }
 
 .step p {
-	text-align: center;
-	padding: 1rem;
-	font-size: 1.5rem;
-	background-color: #3b3b3b;
+	text-align: center !important;
+	padding: 1rem !important;
+	font-size: 1.5rem !important;
+	background-color: #3b3b3b !important;
 }
