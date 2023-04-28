@@ -1,13 +1,12 @@
 // import 'regenerator-runtime/runtime'
 
-import { scaleBand, ScaleBand } from "d3";
-// import * as d3 from "d3";
-// const d3 = require('d3');
+import { scaleBand, ScaleBand, scaleLinear } from "d3";
+import { ScaleLinear } from "d3";
+// import * as d3 from 'd3-selection';
+// import * as d3 from 'd3-array';
+// import * as apolloClient from '@apollo/client';
 
-
-
-// import * as d3 from "d3";
-
+import * as d3 from "d3";
 
 // import { json } from "d3";
 import scrollama from "scrollama"; // or...
