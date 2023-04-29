@@ -8,6 +8,8 @@
 import * as d3 from "d3";
 
 import scrollama from "scrollama"; // or...
+const colors = require('./colors');
+
 
 
 // const d3 = {
@@ -35,6 +37,7 @@ const width = window.innerWidth * 0.7,
   margin = { top: 20, bottom: 50, left: 60, right: 60 };
 
 transitionDuration = 1500;
+startColor = colors.grey
 
   
 // these variables allow us to access anything we manipulate in init() but need access to in draw().
@@ -126,7 +129,7 @@ function init() {
 		.setup({
 			step: "#scrolly article .step",
 			offset: 0.5,
-			debug: true
+			debug: false
 		})
 		.onStepEnter(handleStepEnter);
 
@@ -181,7 +184,7 @@ function init() {
 		.attr("class", 'line')
 		// .attr("data-name", d => d[0]) // give each line a data-name attribute of its series name
 		.attr("fill", "none")
-		.attr("stroke", "orange")
+		.attr("stroke", 'orange')
 		.attr("stroke-width", 0)
   
   
