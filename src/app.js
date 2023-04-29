@@ -1,11 +1,11 @@
 // import 'regenerator-runtime/runtime'
 
-// import { scaleBand, ScaleBand, scaleLinear, extent, min, max, axisBottom, axisLeft, line, curveLinear } from "d3";
-// import { select, selectAll } from "d3-selection";
-// import { group, groups } from "d3-array";
-// import { extent, min, max } from "d3";
+import { scaleBand, ScaleBand, scaleLinear, extent, min, max, axisBottom, axisLeft, line, curveLinear, easeCubic } from "d3";
+import { select, selectAll } from "d3-selection";
+import { group, groups } from "d3-array";
+import { extent, min, max } from "d3";
 
-import * as d3 from "d3";
+// import * as d3 from "d3";
 
 import scrollama from "scrollama"; // or...
 const colors = require('./colors');
@@ -15,20 +15,21 @@ const yAxisTickValues = require('./yAxisTicks');
 
 
 
-// const d3 = {
-// 	select,
-// 	selectAll,
-// 	scaleLinear,
-// 	group,
-// 	groups,
-// 	extent,
-// 	min,
-// 	max,
-// 	axisBottom,
-// 	axisLeft,
-// 	line,
-// 	curveLinear
-// }
+const d3 = {
+	select,
+	selectAll,
+	scaleLinear,
+	group,
+	groups,
+	extent,
+	min,
+	max,
+	axisBottom,
+	axisLeft,
+	line,
+	curveLinear,
+	easeCubic
+}
 
 
 console.log('hello test')
