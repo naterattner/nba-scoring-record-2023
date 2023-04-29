@@ -1,24 +1,87 @@
 /* PAGE ELEMENTS */
 
-h1 {
-	color: turquoise !important;
-}
-
 p,
 h1,
 h2,
 h3,
 h4,
 a {
-  margin: 0 !important;
-  font-weight: 400 !important;
+  /* margin: 0 !important; */
+  /* font-weight: 400 !important; */
 }
+
+body {
+	font-family: 'Open Sans', sans-serif !important;
+	font-size: 16px !important;
+	padding: 1em !important;
+  }
+
+main {
+	width: 95% !important;
+}
+
+h1 {
+	font-size: 3em !important;
+	margin: 0.25em 0 !important;
+}
+
+h3 {
+	font-size: 2em !important;
+	margin: 0.25em 0 !important;
+}
+
+p {
+	font-size: 1em !important;
+	font-weight:300 !important;
+	line-height: 1.5;
+}
+
+#headline {
+	text-align:center !important;
+	font-weight:400 !important;
+	font-family: 'Oswald' !important;
+}
+
+#intro {
+	width:70% !important;
+	margin:0 auto !important;
+	margin-bottom:30px !important;
+}
+
+#chart-title {
+	text-align: left !important;
+	font-size: 1.1em !important;
+	font-weight: 600 !important;
+	margin-bottom: 10px !important;
+}
+
+
+/* CHART STYLES */
+ /* #chart-container {
+	display: flex !important;
+	justify-content: center !important;
+	align-items: center !important;
+  } */
+
+.y-axis-group text {
+	font-family: 'PT Sans' !important;
+	font-size:1.2em !important;
+}
+  
+.x-axis-group text {
+	font-family: 'PT Sans' !important;
+	font-size:1.2em !important;
+}
+
+/* .domain {
+	display: none !important;
+  } */
 
 
 /* SCROLL ELEMENTS */
 #scrolly {
 	position: relative !important;
-	background-color: #f3f3f3 !important;
+	/* background-color: #f3f3f3 !important; */
 	padding: 1rem !important;
 }
 
@@ -34,11 +97,11 @@ figure {
 	position: sticky !important;
 	left: 0 !important;
 	/* width: 100%; */
-	margin: 0 !important;
+	margin: 0 auto!important;
 	-webkit-transform: translate3d(0, 0, 0) !important;
 	-moz-transform: translate3d(0, 0, 0) !important;
 	transform: translate3d(0, 0, 0) !important;
-	background-color: #8a8a8a !important;
+	/* background-color: #8a8a8a !important; */
 	z-index: 0 !important;
 }
 
@@ -53,7 +116,7 @@ figure p {
 	transform: translate(-50%, -50%) !important;
 	font-size: 8rem !important;
 	font-weight: 900 !important;
-	color: #fff !important;
+	color: #000000 !important;
 }
 
 .step {
