@@ -31,15 +31,20 @@ const yAxisTickValues = require('./yAxisTicks');
 // 	easeCubic
 // }
 
-
-console.log('hello test')
-
-
 /* CONSTANTS AND GLOBALS */
 const width = window.innerWidth * 0.7,
   height = window.innerHeight * 0.7,
 //   margin = { top: 20, bottom: 50, left: 60, right: 60 };
 margin = { top: 20, bottom: 25, left: 29, right: 60 };
+
+const lineColors = {
+	'overall' : 'blue',
+	1 : 'blue',
+	2 : colors.lightGrey,
+	3 : colors.lightGrey,
+	4 : colors.lightGrey,
+	5 : colors.lightGrey,
+}
 
 // transitionDuration = 1500;
 // startColor = colors.grey
@@ -73,7 +78,7 @@ const scroller = scrollama(); // initialize the scrollama
 // make an object that we can update in one place and call below
 let parameters = {
 	transitionDuration: 1500,
-	startColor: colors.grey,
+	startColor: colors.lightGrey,
 	xTickValues: [1980, 1990, 2000, 2010, 2020],
 	xTickLabels: ['1980', '\'90', '2000', '\'10', '\'20'],
 	yDomains: [
@@ -91,9 +96,10 @@ let parameters = {
 		yAxisTickValues.tickValues3,
 		yAxisTickValues.tickValues4,
 		yAxisTickValues.tickValues5,
+	],
+	colors: [
 	]
 };
-
 
 /* APPLICATION STATE */
 let state = {
@@ -223,10 +229,12 @@ function init() {
 		.join("path")
 		.attr("d",lineGen)
 		.attr("class", 'line')
-		// .attr("data-name", d => d[0]) // give each line a data-name attribute of its series name
+		.attr("data-name", d => d[0].pts_bin) // give each line a data-name attribute of its pts_bin
 		.attr("fill", "none")
-		.attr("stroke", 'orange')
+		// .attr("stroke", colors.blue)
+		.attr("stroke", d => lineColors[d[0].pts_bin])
 		.attr("stroke-width", 0)
+		.attr("fake", d=> console.log(d[0].pts_bin))
   
   
 	// draw(); // calls the draw function
@@ -251,34 +259,18 @@ function init() {
 			.scale(yScale)
 			.tickValues(parameters.yTickValues[state.step])
 	);
-  
-	// // LINE GENERATOR FUNCTION
-	// //get the y-axis metric we want
-	// const lineGen = d3.line()
-	// 	.x(d => xScale(d.season_year))
-	// 	// .y(d => yScale(d.ppg))
-	// 	.y(d => yScale(d[state.yAxisMetric]))
-	// 	.curve(d3.curveLinear)
-  
-	// // + DRAW LINE AND/OR AREA
-	// lines = svg.selectAll(".line")
-	// 	.data(stepData)
-	// 	.join("path")
-	// 	.attr("d",lineGen)
-	// 	.attr("class", 'line')
-	// 	// .attr("data-name", d => d[0]) // give each line a data-name attribute of its series name
-	// 	.attr("fill", "none")
-	// 	.attr("stroke", "orange")
-	// 	.attr("stroke-width", 2.5)
 
 	d3.selectAll(".line")
 		.data(state.data)
+		.attr("data-name", d => d[0].pts_bin) // give each line a data-name attribute of its pts_bin
+		.attr("fake", d=> console.log(d[0].pts_bin))
 		.transition()
 		.ease(d3.easeCubic)
 		.duration(parameters.transitionDuration)
 			.attr("d",lineGen)
 			.attr('stroke-width', 2.5)
-		
+			// .attr("stroke", function(d){ return lineColors[d[0].pts_bin] })
+			.attr("stroke", d => lineColors[d[0].pts_bin])
 		
   
   }
@@ -316,8 +308,6 @@ function handleStepEnter(response) {
 
 	// update step
 	state.step = response.index + 1;
-	console.log('STEP:')
-	console.log(response.index + 1)
 
 	// update graphic based on step
 	figure.select("p").text(response.index + 1);

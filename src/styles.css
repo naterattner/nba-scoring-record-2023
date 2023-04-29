@@ -80,6 +80,10 @@ p {
 	display: none !important;
   }
 
+#pts_bin_5 {
+	stroke:blue;
+}
+
 
 /* SCROLL ELEMENTS */
 #scrolly {
