@@ -9,6 +9,9 @@ import * as d3 from "d3";
 
 import scrollama from "scrollama"; // or...
 const colors = require('./colors');
+const yAxisTickValues = require('./yAxisTicks');
+
+// console.log(yAxisTickValues.tickValues0)
 
 
 
@@ -34,10 +37,12 @@ console.log('hello test')
 /* CONSTANTS AND GLOBALS */
 const width = window.innerWidth * 0.7,
   height = window.innerHeight * 0.7,
-  margin = { top: 20, bottom: 50, left: 60, right: 60 };
+//   margin = { top: 20, bottom: 50, left: 60, right: 60 };
+margin = { top: 20, bottom: 25, left: 29, right: 60 };
 
-transitionDuration = 1500;
-startColor = colors.grey
+// transitionDuration = 1500;
+// startColor = colors.grey
+// xAxisDates = []
 
   
 // these variables allow us to access anything we manipulate in init() but need access to in draw().
@@ -54,7 +59,6 @@ let rawDataSet; //raw dataset
 let overallData; //data filtered by "overall" bucket
 let startData; //"overall" data as five arrays for first line chart
 let groupsData; //data grouped by pts_bin
-// let groupedChartData; //data grouped by pts_bin and formatted for charting
 
 // these are variables set up for use in the scrolly
 const main = d3.select("main");
@@ -62,8 +66,33 @@ const scrolly = main.select("#scrolly");
 const figure = scrolly.select("figure"); //sticky container outside of chart
 const article = scrolly.select("article");
 const step = article.selectAll(".step");
-console.log(step)
+// console.log(step)
 const scroller = scrollama(); // initialize the scrollama
+
+// make an object that we can update in one place and call below
+let parameters = {
+	transitionDuration: 1500,
+	startColor: colors.grey,
+	xTickValues: [1980, 1990, 2000, 2010, 2020],
+	xTickLabels: ['1980', '\'90', '2000', '\'10', '\'20'],
+	yDomains: [
+		yAxisTickValues.domain0,
+		yAxisTickValues.domain1,
+		yAxisTickValues.domain2,
+		yAxisTickValues.domain3,
+		yAxisTickValues.domain4,
+		yAxisTickValues.domain5,
+	],
+	yTickValues: [
+		yAxisTickValues.tickValues0,
+		yAxisTickValues.tickValues1,
+		yAxisTickValues.tickValues2,
+		yAxisTickValues.tickValues3,
+		yAxisTickValues.tickValues4,
+		yAxisTickValues.tickValues5,
+	]
+};
+
 
 /* APPLICATION STATE */
 let state = {
@@ -128,7 +157,7 @@ function init() {
 	scroller
 		.setup({
 			step: "#scrolly article .step",
-			offset: 0.5,
+			offset: 0.4,
 			debug: false
 		})
 		.onStepEnter(handleStepEnter);
@@ -140,7 +169,8 @@ function init() {
 		.range([margin.right, width - margin.left])
 
 	yScale = d3.scaleLinear()
-		.domain([d3.min(state.data.flat(), d => d[state.yAxisMetric]), d3.max(state.data.flat(), d => d[state.yAxisMetric])])
+		// .domain([d3.min(state.data.flat(), d => d[state.yAxisMetric]), d3.max(state.data.flat(), d => d[state.yAxisMetric])])
+		.domain(parameters.yDomains[state.step])
 		.range([height - margin.top, margin.bottom])
   
 	// + AXES
@@ -159,16 +189,26 @@ function init() {
   
 	// + CALL AXES
 	xAxisGroup = svg.append("g")
-		.attr("class", "xAxis")
-		.attr("transform", `translate(${0}, ${height - margin.bottom})`)
-		.call(xAxis)
+		.attr("transform", `translate(${0}, ${height - margin.bottom + 5})`)
 		.attr('class', 'x-axis-group')
+		.call(xAxis
+			.tickValues(parameters.xTickValues)
+			.tickPadding(5)
+			// .tickFormat(d => d)
+			.tickFormat(function(d, i){
+				return parameters.xTickLabels[i];
+			})
+			)
 	
 	yAxisGroup = svg.append("g")
 		.attr("transform", `translate(${margin.left},0)`)
-		.call(yAxis)
 		.attr('class', 'y-axis-group')
-
+		.call(yAxis
+			.tickValues(parameters.yTickValues[state.step])
+			.tickSizeInner(-width)
+			.tickPadding(5)
+		)
+	
 	// LINE GENERATOR FUNCTION
 	// Our initial line should use startData, which is overall data on ppg but drawn five times (for splitting later)
 	lineGen = d3.line()
@@ -200,13 +240,16 @@ function init() {
 	  // .filter(d => d.country === state.selection)
   
 	// + UPDATE SCALE(S), if needed
-	yScale.domain([d3.min(stepData.flat(), d => d[state.yAxisMetric]), d3.max(stepData.flat(), d => d[state.yAxisMetric])]).nice()
+	yScale.domain(parameters.yDomains[state.step])
 	
 	// + UPDATE AXIS/AXES, if needed
 	yAxisGroup
 		.transition()
-		.duration(transitionDuration)
-		.call(yAxis.scale(yScale))// need to udpate the scale
+		.duration(parameters.transitionDuration)
+		.call(yAxis
+			.scale(yScale)
+			.tickValues(parameters.yTickValues[state.step])
+	);
   
 	// // LINE GENERATOR FUNCTION
 	// //get the y-axis metric we want
@@ -231,7 +274,7 @@ function init() {
 		.data(state.data)
 		.transition()
 		.ease(d3.easeCubic)
-		.duration(transitionDuration)
+		.duration(parameters.transitionDuration)
 			.attr("d",lineGen)
 			.attr('stroke-width', 2.5)
 		
@@ -270,8 +313,16 @@ function handleStepEnter(response) {
 		return i === response.index;
 	});
 
+	// update step
+	state.step = response.index + 1;
+	console.log('STEP:')
+	console.log(response.index + 1)
+
 	// update graphic based on step
 	figure.select("p").text(response.index + 1);
+
+	//update chart title based on step
+	figure.select("#chart-title").text(response.index + 1);
 
 	// update data based on step
 	state.data = dataSets[response.index] //dataset -- we may be able to remove this later

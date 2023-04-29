@@ -33,7 +33,7 @@ h3 {
 p {
 	font-size: 1em !important;
 	font-weight:300 !important;
-	line-height: 1.5;
+	line-height: 1.5 !important;
 }
 
 #headline {
@@ -43,7 +43,7 @@ p {
 }
 
 #intro {
-	width:70% !important;
+	/* width:95% !important; */
 	margin:0 auto !important;
 	margin-bottom:30px !important;
 }
@@ -73,9 +73,13 @@ p {
 	font-size:1.2em !important;
 }
 
-/* .domain {
+.y-axis-group g line {
+    	stroke:  #e0e0e0;
+	}
+
+.domain {
 	display: none !important;
-  } */
+  }
 
 
 /* SCROLL ELEMENTS */
