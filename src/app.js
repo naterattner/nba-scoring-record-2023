@@ -1,11 +1,11 @@
 // import 'regenerator-runtime/runtime'
 
-import { scaleBand, ScaleBand, scaleLinear, extent, min, max, axisBottom, axisLeft, line, curveLinear, easeCubic } from "d3";
-import { select, selectAll } from "d3-selection";
-import { group, groups } from "d3-array";
-import { extent, min, max } from "d3";
+// import { scaleBand, ScaleBand, scaleLinear, extent, min, max, axisBottom, axisLeft, line, curveLinear, easeCubic } from "d3";
+// import { select, selectAll } from "d3-selection";
+// import { group, groups } from "d3-array";
+// import { extent, min, max } from "d3";
 
-// import * as d3 from "d3";
+import * as d3 from "d3";
 
 import scrollama from "scrollama"; // or...
 const colors = require('./colors');
@@ -15,21 +15,21 @@ const yAxisTickValues = require('./yAxisTicks');
 
 
 
-const d3 = {
-	select,
-	selectAll,
-	scaleLinear,
-	group,
-	groups,
-	extent,
-	min,
-	max,
-	axisBottom,
-	axisLeft,
-	line,
-	curveLinear,
-	easeCubic
-}
+// const d3 = {
+// 	select,
+// 	selectAll,
+// 	scaleLinear,
+// 	group,
+// 	groups,
+// 	extent,
+// 	min,
+// 	max,
+// 	axisBottom,
+// 	axisLeft,
+// 	line,
+// 	curveLinear,
+// 	easeCubic
+// }
 
 
 console.log('hello test')
@@ -158,7 +158,7 @@ function init() {
 	scroller
 		.setup({
 			step: "#scrolly article .step",
-			offset: 0.4,
+			offset: 0.7,
 			debug: false
 		})
 		.onStepEnter(handleStepEnter);
@@ -289,8 +289,8 @@ function init() {
 // generic window resize listener event
 function handleResize() {
 	// 1. update height of step elements
-	const stepH = Math.floor(window.innerHeight * 0.75);
-	step.style("height", stepH + "px");
+	// const stepH = Math.floor(window.innerHeight * 0.5);
+	// step.style("height", stepH + "px");
 
 	// const figureHeight = window.innerHeight / 2;
 	// const figureMarginTop = (window.innerHeight - figureHeight) / 2;

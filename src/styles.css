@@ -1,4 +1,4 @@
-/* PAGE ELEMENTS */
+art/* PAGE ELEMENTS */
 
 p,
 h1,
@@ -50,18 +50,17 @@ p {
 
 #chart-title {
 	text-align: left !important;
-	font-size: 1.1em !important;
+	font-size: 1em !important;
 	font-weight: 600 !important;
 	margin-bottom: 10px !important;
 }
 
+#outro {
+	margin-top: 60px;
+}
+
 
 /* CHART STYLES */
- /* #chart-container {
-	display: flex !important;
-	justify-content: center !important;
-	align-items: center !important;
-  } */
 
 .y-axis-group text {
 	font-family: 'PT Sans' !important;
@@ -92,7 +91,7 @@ p {
 article {
 	position: relative !important;
 	padding: 0 !important;
-	max-width: 20rem !important;
+	/* max-width: 20rem !important; */
 	margin: 0 auto !important;
 }
 
@@ -124,23 +123,30 @@ figure p {
 }
 
 .step {
-	margin: 0 auto 2rem auto !important;
-	color: #fff !important;
-	background-color: rgba(0, 0, 0, 0.1) !important;
+	margin: 0 auto !important;
+	/* width: 100%; */
+	max-width: 45%;
+	min-width: 275px;
+	/* color: #fff !important; */
+	background-color: rgba(255, 255, 255, 0.8) !important;
+	backdrop-filter: blur(5px) !important;
+	box-shadow: 0 0 1.5px 0 rgba(0, 0, 0, 0.4);
+	margin-bottom: 800px !important;
+	
 }
 
-.step:last-child {
+/* .step:last-child {
 	margin-bottom: 0 !important;
-}
+} */
 
-.step.is-active p {
+/* .step.is-active p {
 	background-color: goldenrod !important;
 	color: #3b3b3b !important;
-}
+} */
 
 .step p {
-	text-align: center !important;
+	/* text-align: center !important; */
 	padding: 1rem !important;
-	font-size: 1.5rem !important;
-	background-color: #3b3b3b !important;
+	/* font-size: 1.5rem !important; */
+	/* background-color: #3b3b3b !important; */
 }
