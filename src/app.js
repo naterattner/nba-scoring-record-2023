@@ -1,15 +1,30 @@
 // import 'regenerator-runtime/runtime'
 
-import { scaleBand, ScaleBand, scaleLinear } from "d3";
-import { ScaleLinear } from "d3";
-// import * as d3 from 'd3-selection';
-// import * as d3 from 'd3-array';
-// import * as apolloClient from '@apollo/client';
+// import { scaleBand, ScaleBand, scaleLinear, extent, min, max, axisBottom, axisLeft, line, curveLinear } from "d3";
+// import { select, selectAll } from "d3-selection";
+// import { group, groups } from "d3-array";
+// import { extent, min, max } from "d3";
 
 import * as d3 from "d3";
 
-// import { json } from "d3";
 import scrollama from "scrollama"; // or...
+
+
+// const d3 = {
+// 	select,
+// 	selectAll,
+// 	scaleLinear,
+// 	group,
+// 	groups,
+// 	extent,
+// 	min,
+// 	max,
+// 	axisBottom,
+// 	axisLeft,
+// 	line,
+// 	curveLinear
+// }
+
 
 console.log('hello test')
 
@@ -18,6 +33,8 @@ console.log('hello test')
 const width = window.innerWidth * 0.7,
   height = window.innerHeight * 0.7,
   margin = { top: 20, bottom: 50, left: 60, right: 60 };
+
+transitionDuration = 1500;
 
   
 // these variables allow us to access anything we manipulate in init() but need access to in draw().
@@ -28,6 +45,8 @@ let yScale;
 let yAxis;
 let xAxisGroup; // maybe move this to const -- won't change by data
 let yAxisGroup;
+let lineGen; //line generator function
+let lines;
 let rawDataSet; //raw dataset
 let overallData; //data filtered by "overall" bucket
 let startData; //"overall" data as five arrays for first line chart
@@ -47,11 +66,12 @@ const scroller = scrollama(); // initialize the scrollama
 let state = {
 	data: [],
 	step: 0, // + YOUR FILTER SELECTION
+	yAxisMetric: [], // The data we want to chart each slide
   };
   
 /* LOAD DATA */
 // + SET YOUR DATA PATH
-import('../data/20230326_quintiles_player_bins_with_overall.json').then(data => {
+import('../data/20230429_20230326_quintiles_player_bins_with_overall.json').then(data => {
     console.log("loaded data:", data);
     
 	//set up datasets we'll use
@@ -83,10 +103,17 @@ function init() {
 	groupedData.forEach(element => groupedChartData.push(element[1]));
 
 	//put these in an array which we will cycle through based on the scrolly step
-	dataSets = [startData, groupedChartData]
+	// dataSets = [startData, groupedChartData, groupedChartData, groupedChartData, groupedChartData]
+	dataSets = [groupedChartData, groupedChartData, groupedChartData, groupedChartData]
 
 	//start with startData
 	state.data = startData;
+	console.log(startData)
+
+	//SET UP STRINGS WE'LL USE FOR CHOOSING THE Y-AXIS METRIC
+	yAxisMetrics = ['ppg', 'ppg', '3p_game', 'ast_game']
+	state.yAxisMetric = 'ppg'
+
 
 	// SCROLLAMA
 	// 1. force a resize on load to ensure proper dimensions are sent to scrollama
@@ -110,7 +137,7 @@ function init() {
 		.range([margin.right, width - margin.left])
 
 	yScale = d3.scaleLinear()
-		.domain([d3.min(state.data.flat(), d => d.ppg), d3.max(state.data.flat(), d => d.ppg)])
+		.domain([d3.min(state.data.flat(), d => d[state.yAxisMetric]), d3.max(state.data.flat(), d => d[state.yAxisMetric])])
 		.range([height - margin.top, margin.bottom])
   
 	// + AXES
@@ -138,36 +165,17 @@ function init() {
 		.attr("transform", `translate(${margin.left},0)`)
 		.call(yAxis)
 		.attr('class', 'y-axis-group')
-  
-  
-	draw(); // calls the draw function
-  }
-  
-  /* DRAW FUNCTION */
-  // we call this every time there is an update to the data/state
-  function draw() {
-	// + FILTER DATA BASED ON STATE
-	const stepData = state.data
-	  // .filter(d => d.country === state.selection)
-  
-	// + UPDATE SCALE(S), if needed
-	yScale.domain([d3.min(stepData.flat(), d => d.ppg), d3.max(stepData.flat(), d => d.ppg)]).nice()
-  
-	// + UPDATE AXIS/AXES, if needed
-	yAxisGroup
-		.transition()
-		.duration(750)
-		.call(yAxis.scale(yScale))// need to udpate the scale
-  
+
 	// LINE GENERATOR FUNCTION
-	const lineGen = d3.line()
+	// Our initial line should use startData, which is overall data on ppg but drawn five times (for splitting later)
+	lineGen = d3.line()
 		.x(d => xScale(d.season_year))
-		.y(d => yScale(d.ppg))
+		.y(d => yScale(d[state.yAxisMetric]))
 		.curve(d3.curveLinear)
   
 	// + DRAW LINE AND/OR AREA
-	const path = svg.selectAll(".line")
-		.data(stepData)
+	lines = svg.selectAll(".line")
+		.data(state.data)
 		.join("path")
 		.attr("d",lineGen)
 		.attr("class", 'line')
@@ -175,6 +183,56 @@ function init() {
 		.attr("fill", "none")
 		.attr("stroke", "orange")
 		.attr("stroke-width", 2.5)
+  
+  
+	// draw(); // calls the draw function
+  }
+  
+  /* DRAW FUNCTION */ 
+  // MAYBE RENAME THIS TRANSITION
+  // we call this every time there is an update to the data/state
+  function draw() {
+	console.log('DRAWING')
+	// + FILTER DATA BASED ON STATE
+	const stepData = state.data
+	  // .filter(d => d.country === state.selection)
+  
+	// + UPDATE SCALE(S), if needed
+	yScale.domain([d3.min(stepData.flat(), d => d[state.yAxisMetric]), d3.max(stepData.flat(), d => d[state.yAxisMetric])]).nice()
+	
+	// + UPDATE AXIS/AXES, if needed
+	yAxisGroup
+		.transition()
+		.duration(transitionDuration)
+		.call(yAxis.scale(yScale))// need to udpate the scale
+  
+	// // LINE GENERATOR FUNCTION
+	// //get the y-axis metric we want
+	// const lineGen = d3.line()
+	// 	.x(d => xScale(d.season_year))
+	// 	// .y(d => yScale(d.ppg))
+	// 	.y(d => yScale(d[state.yAxisMetric]))
+	// 	.curve(d3.curveLinear)
+  
+	// // + DRAW LINE AND/OR AREA
+	// lines = svg.selectAll(".line")
+	// 	.data(stepData)
+	// 	.join("path")
+	// 	.attr("d",lineGen)
+	// 	.attr("class", 'line')
+	// 	// .attr("data-name", d => d[0]) // give each line a data-name attribute of its series name
+	// 	.attr("fill", "none")
+	// 	.attr("stroke", "orange")
+	// 	.attr("stroke-width", 2.5)
+
+	d3.selectAll(".line")
+		.data(state.data)
+		.transition()
+		.ease(d3.easeCubic)
+		.duration(transitionDuration)
+			.attr("d",lineGen)
+			// .attr('stroke', 'blue')
+		
 		
   
   }
@@ -214,8 +272,14 @@ function handleStepEnter(response) {
 	figure.select("p").text(response.index + 1);
 
 	// update data based on step
-	state.data = dataSets[response.index]
+	state.data = dataSets[response.index] //dataset -- we may be able to remove this later
 	console.log(state.data)
+
+	state.yAxisMetric = yAxisMetrics[response.index] //y axis metric
+	console.log(state.yAxisMetric)
+
+	
+
 
 	draw();
 }
