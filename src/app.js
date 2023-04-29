@@ -72,7 +72,7 @@ let state = {
 /* LOAD DATA */
 // + SET YOUR DATA PATH
 import('../data/20230429_20230326_quintiles_player_bins_with_overall.json').then(data => {
-    console.log("loaded data:", data);
+    // console.log("loaded data:", data);
     
 	//set up datasets we'll use
 	rawDataSet = data;
@@ -103,15 +103,15 @@ function init() {
 	groupedData.forEach(element => groupedChartData.push(element[1]));
 
 	//put these in an array which we will cycle through based on the scrolly step
-	// dataSets = [startData, groupedChartData, groupedChartData, groupedChartData, groupedChartData]
-	dataSets = [groupedChartData, groupedChartData, groupedChartData, groupedChartData]
+	dataSets = [startData, groupedChartData, groupedChartData, groupedChartData, groupedChartData]
+	// dataSets = [groupedChartData, groupedChartData, groupedChartData, groupedChartData]
 
 	//start with startData
 	state.data = startData;
 	console.log(startData)
 
 	//SET UP STRINGS WE'LL USE FOR CHOOSING THE Y-AXIS METRIC
-	yAxisMetrics = ['ppg', 'ppg', '3p_game', 'ast_game']
+	yAxisMetrics = ['ppg', 'ppg', 'ppg', '3p_game', 'ast_game']
 	state.yAxisMetric = 'ppg'
 
 
@@ -125,8 +125,8 @@ function init() {
 	scroller
 		.setup({
 			step: "#scrolly article .step",
-			offset: 0.33,
-			debug: false
+			offset: 0.5,
+			debug: true
 		})
 		.onStepEnter(handleStepEnter);
 
@@ -182,7 +182,7 @@ function init() {
 		// .attr("data-name", d => d[0]) // give each line a data-name attribute of its series name
 		.attr("fill", "none")
 		.attr("stroke", "orange")
-		.attr("stroke-width", 2.5)
+		.attr("stroke-width", 0)
   
   
 	// draw(); // calls the draw function
@@ -192,7 +192,6 @@ function init() {
   // MAYBE RENAME THIS TRANSITION
   // we call this every time there is an update to the data/state
   function draw() {
-	console.log('DRAWING')
 	// + FILTER DATA BASED ON STATE
 	const stepData = state.data
 	  // .filter(d => d.country === state.selection)
@@ -231,7 +230,7 @@ function init() {
 		.ease(d3.easeCubic)
 		.duration(transitionDuration)
 			.attr("d",lineGen)
-			// .attr('stroke', 'blue')
+			.attr('stroke-width', 2.5)
 		
 		
   
