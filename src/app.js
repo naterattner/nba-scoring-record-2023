@@ -38,12 +38,12 @@ const width = window.innerWidth * 0.7,
 margin = { top: 20, bottom: 25, left: 23, right: 60 };
 
 const lineColors = {
-	'overall' : colors.grey,
-	1 : colors.teal,
-	2 : colors.lightGrey,
-	3 : colors.lightGrey,
-	4 : colors.lightGrey,
-	5 : colors.lightGrey,
+	'overall' : colors.orange3,
+	1 : colors.teal4,
+	2 : colors.orange1,
+	3 : colors.orange2,
+	4 : colors.orange3,
+	5 : colors.orange4,
 }
 
 // transitionDuration = 1500;
@@ -320,15 +320,15 @@ function highlightTopAndBottom() {
 		.ease(d3.easeBackIn)
 		.delay(1000) 
 		.duration(400)
-    	.attr("stroke-width", "4.5")
+    	.attr("stroke-width", "7")
 
 	svg.selectAll("[data-name='5']")
 		.transition()
 		.ease(d3.easeBackIn)
 		.delay(1000) 
 		.duration(400)
-		.attr('stroke', colors.grey)
-    	.attr("stroke-width", "4.5")
+		// .attr('stroke', colors.grey)
+    	.attr("stroke-width", "7")
 };
 
 // generic window resize listener event
