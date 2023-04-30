@@ -1,4 +1,41 @@
-art/* PAGE ELEMENTS */
+/* PAGE ELEMENTS */
+
+/* Special for mobile */
+@media all and (min-width: 1024px) and (max-width: 1280px) { 
+
+}
+
+@media all and (min-width: 768px) and (max-width: 1024px) { 
+	h1 {
+		font-size: 2.7em !important;
+	}
+
+	h3 {
+		font-size: 1.45em !important;
+	}
+}
+
+@media all and (min-width: 480px) and (max-width: 768px) { 
+	h1 {
+		font-size: 2em !important;
+	}
+
+	h3 {
+		font-size: 1.25em !important;
+	}
+}
+
+@media all and (max-width: 480px) { 
+	h1 {
+		font-size: 2em !important;
+	}
+
+	h3 {
+		font-size: 1.25em !important;
+	}
+}
+
+
 
 p,
 h1,
@@ -20,16 +57,6 @@ main {
 	width: 95% !important;
 }
 
-h1 {
-	font-size: 3em !important;
-	margin: 0.25em 0 !important;
-}
-
-h3 {
-	font-size: 2em !important;
-	margin: 0.25em 0 !important;
-}
-
 p {
 	font-size: 1em !important;
 	font-weight:300 !important;
@@ -38,8 +65,18 @@ p {
 
 #headline {
 	text-align:center !important;
-	font-weight:400 !important;
-	font-family: 'Oswald' !important;
+	font-weight:500 !important;
+	font-family: 'Archivo' !important;
+}
+
+h1 {
+	margin: 0.25em 0 !important;
+}
+
+h3 {
+	margin: 0.25em 0 !important;
+	text-align:center !important;
+	font-weight: 300 !important;
 }
 
 #intro {
@@ -106,6 +143,16 @@ p {
 
 .domain {
 	display: none !important;
+  }
+
+.line-label {
+	paint-order: stroke !important;
+	stroke-width: 3 !important;
+	stroke: #FFFFFF !important;
+	text-anchor: end !important;
+	font-family: 'Open Sans', sans-serif !important;
+	font-size: .88em !important;
+	/* text-align: right; */
   }
 
 

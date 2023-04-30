@@ -65,6 +65,11 @@ let rawDataSet; //raw dataset
 let overallData; //data filtered by "overall" bucket
 let startData; //"overall" data as five arrays for first line chart
 let groupsData; //data grouped by pts_bin
+let topPlayersLabelGroup; //svg group for line label
+let topPlayersTextLabel; //text for line label
+let bottomPlayersLabelGroup;
+let bottomPlayersTextLabel;
+
 
 // these are variables set up for use in the scrolly
 const main = d3.select("main");
@@ -79,6 +84,7 @@ const scroller = scrollama(); // initialize the scrollama
 let parameters = {
 	transitionDuration: 1500,
 	startColor: colors.lightGrey,
+	xDomain: [1977, 2024],
 	xTickValues: [1980, 1990, 2000, 2010, 2020],
 	xTickLabels: ['1980', '\'90', '2000', '\'10', '\'20'],
 	yDomains: [
@@ -104,7 +110,10 @@ let parameters = {
 		'Points per game, by NBA player scoring quintile',
 		'Three-point shots made per game, by NBA player scoring quintile',
 		'Assists per game, by NBA player scoring quintile'
-	]
+	],
+	lineLabelXValue: 2023,
+	topPlayersLabelYValues: [100, 100, 23.5, 23.5, 2.2, 5.08],
+	bottomPlayersLabelYValues: [100, 100, 4.8, 4.8, 0.6, 1],
 };
 
 /* APPLICATION STATE */
@@ -177,7 +186,7 @@ function init() {
 
 	// + SCALES
 	xScale = d3.scaleLinear()
-		.domain(d3.extent(state.data.flat(), d => d.season_year))
+		.domain(parameters.xDomain)
 		.range([margin.right, width - margin.left])
 
 	yScale = d3.scaleLinear()
@@ -189,9 +198,6 @@ function init() {
 	xAxis = d3.axisBottom(xScale)
 
 	yAxis = d3.axisLeft(yScale)
-  
-	// + UI ELEMENT SETUP
-  
   
 	// + CREATE SVG ELEMENT
 	svg = d3.select("#chart-container")
@@ -240,6 +246,31 @@ function init() {
 		.attr("stroke", d => lineColors[d[0].pts_bin])
 		.attr("stroke-width", 0)
 		// .attr("fake", d=> console.log(d[0].pts_bin))
+
+	// ADD LINE LABELS -- with opacity 0 for now. Fade in based on slide numbers
+	topPlayersLabelGroup = svg.append("g")
+		.attr("transform", `translate(${xScale(parameters.lineLabelXValue)}, ${yScale(parameters.topPlayersLabelYValues[state.step])})`)
+		.attr("class", "line-label")
+		// .attr("class", "top-players-label")
+		.style("opacity", 0)
+	
+	topPlayersTextLabel = topPlayersLabelGroup.append("text")
+		.text("Top 20% of scorers")
+		.attr("x", 0)
+		.attr("y", 5)
+		.attr("fill", colors.teal4)
+
+	bottomPlayersLabelGroup = svg.append("g")
+		.attr("transform", `translate(${xScale(parameters.lineLabelXValue)}, ${yScale(parameters.bottomPlayersLabelYValues[state.step])})`)
+		.attr("class", "line-label")
+		// .attr("class", "bottom-players-label")
+		.style("opacity", 0)
+	
+	bottomPlayersTextLabel = bottomPlayersLabelGroup.append("text")
+		.text("Bottom 20% of scorers")
+		.attr("x", 0)
+		.attr("y", 5)
+		.attr("fill", colors.orange2)
   
   
 	// draw(); // calls the draw function
@@ -248,7 +279,7 @@ function init() {
   /* DRAW FUNCTION */ 
   // MAYBE RENAME THIS TRANSITION
   // we call this every time there is an update to the data/state
-  function draw() {
+  function draw(response) {
 	// + FILTER DATA BASED ON STATE
 	const stepData = state.data
 	  // .filter(d => d.country === state.selection)
@@ -277,19 +308,21 @@ function init() {
 			.attr('stroke-width', 2.5)
 			// .attr("stroke", function(d){ return lineColors[d[0].pts_bin] })
 			.attr("stroke", d => lineColors[d[0].pts_bin])
+	
+	// UPDATE LINE LABELS
+	updateLineLabels(response);
+	// topPlayersLabelGroup
+	// 	.transition()
+	// 		.duration(parameters.transitionDuration)
+	// 		.attr("transform", `translate(${xScale(parameters.lineLabelXValue)}, ${yScale(25)})`)
 
-	// DO SPECIFIC THINGS BASED ON STEP NUMBER
-	if (state.step === 3) {
-		highlightTopAndBottom();
-	} else {
-		// pass
-	};
   }
 
 
 /* SCROLL INTERACTIONS */
 function updateChartTitle(response) {
 	if ((state.step === 2 || state.step === 4 || state.step === 5) && (response.direction == 'down')) {
+		
 		figure.select("#chart-title")
 			.transition()
 			.duration(parameters.transitionDuration / 2)
@@ -300,6 +333,7 @@ function updateChartTitle(response) {
 			.text(parameters.chartTitles[state.step]);
 
 	} else if ((state.step === 4 || state.step === 3 || state.step === 1) && (response.direction == 'up')) {
+		
 		figure.select("#chart-title")
 			.transition()
 			.duration(parameters.transitionDuration / 2)
@@ -312,6 +346,70 @@ function updateChartTitle(response) {
 	} else {
 		// pass
 	};
+};
+
+function updateLineLabels(response) {
+
+	if ((state.step === 2) && (response.direction == 'down')) {
+
+		topPlayersLabelGroup
+			.transition()
+			.duration(parameters.transitionDuration)
+			.attr("transform", `translate(${xScale(parameters.lineLabelXValue)}, ${yScale(parameters.topPlayersLabelYValues[state.step])})`)
+			.style("opacity", 1)
+		
+		bottomPlayersLabelGroup
+			.transition()
+			.duration(parameters.transitionDuration)
+			.attr("transform", `translate(${xScale(parameters.lineLabelXValue)}, ${yScale(parameters.bottomPlayersLabelYValues[state.step])})`)
+			.style("opacity", 1)
+		
+	} else if ((state.step === 4 || state.step === 5 ) && (response.direction === 'down' || response.direction === 'up')) {
+		topPlayersLabelGroup
+			.transition()
+			.duration(parameters.transitionDuration)
+			.attr("transform", `translate(${xScale(parameters.lineLabelXValue)}, ${yScale(parameters.topPlayersLabelYValues[state.step])})`)
+
+		bottomPlayersLabelGroup
+			.transition()
+			.duration(parameters.transitionDuration)
+			.attr("transform", `translate(${xScale(parameters.lineLabelXValue)}, ${yScale(parameters.bottomPlayersLabelYValues[state.step])})`)
+
+	} else if ((state.step === 3) && (response.direction === 'up')) {
+		topPlayersLabelGroup
+			.transition()
+			.duration(parameters.transitionDuration)
+			.attr("transform", `translate(${xScale(parameters.lineLabelXValue)}, ${yScale(parameters.topPlayersLabelYValues[state.step])})`)
+
+		bottomPlayersLabelGroup
+			.transition()
+			.duration(parameters.transitionDuration)
+			.attr("transform", `translate(${xScale(parameters.lineLabelXValue)}, ${yScale(parameters.bottomPlayersLabelYValues[state.step])})`)
+
+	} else if ((state.step === 1 ) && (response.direction === 'up')) {
+		topPlayersLabelGroup
+			.transition()
+			.duration(parameters.transitionDuration)
+				.attr("transform", `translate(${xScale(parameters.lineLabelXValue)}, ${yScale(parameters.topPlayersLabelYValues[state.step])})`)
+				.style("opacity", 0)
+
+		bottomPlayersLabelGroup
+		.transition()
+		.duration(parameters.transitionDuration)
+			.attr("transform", `translate(${xScale(parameters.lineLabelXValue)}, ${yScale(parameters.bottomPlayersLabelYValues[state.step])})`)
+			.style("opacity", 0)
+	} else {
+		// pass
+	};
+
+
+
+
+
+	
+
+	
+	
 };
 
 function highlightTopAndBottom() {
@@ -365,10 +463,20 @@ function handleStepEnter(response) {
 	//update chart title based on step
 	updateChartTitle(response);
 
+	//update line labels based on step
+	// addLineLabels(response);
+
 	// update data based on step
 	state.data = dataSets[response.index] //dataset -- we may be able to remove this later
 	state.yAxisMetric = yAxisMetrics[response.index] //y axis metric
 
-	// transition chart
-	draw();
+	// transition lines
+	draw(response);
+
+	// step-specific transitions
+	if (state.step === 3) {
+		highlightTopAndBottom();
+	} else {
+		// pass
+	};
 }
