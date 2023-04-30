@@ -35,7 +35,7 @@ const yAxisTickValues = require('./yAxisTicks');
 const width = window.innerWidth * 0.7,
   height = window.innerHeight * 0.7,
 //   margin = { top: 20, bottom: 50, left: 60, right: 60 };
-margin = { top: 20, bottom: 25, left: 29, right: 60 };
+margin = { top: 20, bottom: 25, left: 23, right: 60 };
 
 const lineColors = {
 	'overall' : 'blue',
@@ -97,7 +97,13 @@ let parameters = {
 		yAxisTickValues.tickValues4,
 		yAxisTickValues.tickValues5,
 	],
-	colors: [
+	chartTitles: [
+		'Points per game, all NBA teams',
+		'Points per game, all NBA teams',
+		'Points per game, by NBA player scoring quintile',
+		'Points per game, by NBA player scoring quintile',
+		'Three-point shots made per game, by NBA player scoring quintile',
+		'Assists per game, by NBA player scoring quintile'
 	]
 };
 
@@ -147,7 +153,6 @@ function init() {
 
 	//start with startData
 	state.data = startData;
-	console.log(startData)
 
 	//SET UP STRINGS WE'LL USE FOR CHOOSING THE Y-AXIS METRIC
 	yAxisMetrics = ['ppg', 'ppg', 'ppg', '3p_game', 'ast_game']
@@ -234,7 +239,7 @@ function init() {
 		// .attr("stroke", colors.blue)
 		.attr("stroke", d => lineColors[d[0].pts_bin])
 		.attr("stroke-width", 0)
-		.attr("fake", d=> console.log(d[0].pts_bin))
+		// .attr("fake", d=> console.log(d[0].pts_bin))
   
   
 	// draw(); // calls the draw function
@@ -263,7 +268,7 @@ function init() {
 	d3.selectAll(".line")
 		.data(state.data)
 		.attr("data-name", d => d[0].pts_bin) // give each line a data-name attribute of its pts_bin
-		.attr("fake", d=> console.log(d[0].pts_bin))
+		// .attr("fake", d=> console.log(d[0].pts_bin))
 		.transition()
 		.ease(d3.easeCubic)
 		.duration(parameters.transitionDuration)
@@ -276,7 +281,31 @@ function init() {
   }
 
 /* SCROLL INTERACTIONS */
+function updateChartTitle(response) {
+	if ((state.step === 2 || state.step === 4 || state.step === 5) && (response.direction == 'down')) {
+		figure.select("#chart-title")
+			.transition()
+			.duration(parameters.transitionDuration / 2)
+			.style("opacity", 0)
+		.transition()
+			.duration(parameters.transitionDuration / 2)
+			.style("opacity", 1)
+			.text(parameters.chartTitles[state.step]);
 
+	} else if ((state.step === 4 || state.step === 3 || state.step === 1) && (response.direction == 'up')) {
+		figure.select("#chart-title")
+			.transition()
+			.duration(parameters.transitionDuration / 2)
+			.style("opacity", 0)
+		.transition()
+			.duration(parameters.transitionDuration / 2)
+			.style("opacity", 1)
+			.text(parameters.chartTitles[state.step]);
+
+	} else {
+		// pass
+	};
+};
 
 // generic window resize listener event
 function handleResize() {
@@ -298,7 +327,6 @@ function handleResize() {
 }
 
 function handleStepEnter(response) {
-	console.log(response);
 	// response = { element, direction, index }
 
 	// add color to current step only
@@ -308,22 +336,15 @@ function handleStepEnter(response) {
 
 	// update step
 	state.step = response.index + 1;
-
-	// update graphic based on step
-	figure.select("p").text(response.index + 1);
+	console.log(state.step);
 
 	//update chart title based on step
-	figure.select("#chart-title").text(response.index + 1);
+	updateChartTitle(response);
 
 	// update data based on step
 	state.data = dataSets[response.index] //dataset -- we may be able to remove this later
-	console.log(state.data)
-
 	state.yAxisMetric = yAxisMetrics[response.index] //y axis metric
-	console.log(state.yAxisMetric)
 
-	
-
-
+	// transition chart
 	draw();
 }
