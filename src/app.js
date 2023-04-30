@@ -38,8 +38,8 @@ const width = window.innerWidth * 0.7,
 margin = { top: 20, bottom: 25, left: 23, right: 60 };
 
 const lineColors = {
-	'overall' : 'blue',
-	1 : 'blue',
+	'overall' : colors.grey,
+	1 : colors.teal,
 	2 : colors.lightGrey,
 	3 : colors.lightGrey,
 	4 : colors.lightGrey,
@@ -264,7 +264,8 @@ function init() {
 			.scale(yScale)
 			.tickValues(parameters.yTickValues[state.step])
 	);
-
+	
+	// UPDATE LINES
 	d3.selectAll(".line")
 		.data(state.data)
 		.attr("data-name", d => d[0].pts_bin) // give each line a data-name attribute of its pts_bin
@@ -276,9 +277,15 @@ function init() {
 			.attr('stroke-width', 2.5)
 			// .attr("stroke", function(d){ return lineColors[d[0].pts_bin] })
 			.attr("stroke", d => lineColors[d[0].pts_bin])
-		
-  
+
+	// DO SPECIFIC THINGS BASED ON STEP NUMBER
+	if (state.step === 3) {
+		highlightTopAndBottom();
+	} else {
+		// pass
+	};
   }
+
 
 /* SCROLL INTERACTIONS */
 function updateChartTitle(response) {
@@ -305,6 +312,23 @@ function updateChartTitle(response) {
 	} else {
 		// pass
 	};
+};
+
+function highlightTopAndBottom() {
+	svg.selectAll("[data-name='1']")
+		.transition()
+		.ease(d3.easeBackIn)
+		.delay(1000) 
+		.duration(400)
+    	.attr("stroke-width", "4.5")
+
+	svg.selectAll("[data-name='5']")
+		.transition()
+		.ease(d3.easeBackIn)
+		.delay(1000) 
+		.duration(400)
+		.attr('stroke', colors.grey)
+    	.attr("stroke-width", "4.5")
 };
 
 // generic window resize listener event

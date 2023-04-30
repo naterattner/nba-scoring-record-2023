@@ -59,6 +59,34 @@ p {
 	margin-top: 60px;
 }
 
+.item-top {
+	font-weight: 500;
+	background: #007c90;
+	color: #ffffff;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-left: 3px;
+	padding-right: 3px;
+	margin-right: 1px;
+	margin-left: 1px;
+	border-radius: 4px;
+	white-space: nowrap;
+}
+
+.item-bottom {
+	font-weight: 500;
+	background: #808080;
+	color: #ffffff;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-left: 3px;
+	padding-right: 3px;
+	margin-right: 1px;
+	margin-left: 1px;
+	border-radius: 4px;
+	white-space: nowrap;
+}
+
 
 /* CHART STYLES */
 
@@ -79,10 +107,6 @@ p {
 .domain {
 	display: none !important;
   }
-
-#pts_bin_5 {
-	stroke:blue;
-}
 
 
 /* SCROLL ELEMENTS */
