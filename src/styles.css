@@ -1,8 +1,10 @@
 /* PAGE ELEMENTS */
 
 /* Special for mobile */
-@media all and (min-width: 1024px) and (max-width: 1280px) { 
-
+@media all and (min-width: 1024px) and (max-width: 1580px) { 
+	main {
+		width: 67% !important;
+	}
 }
 
 @media all and (min-width: 768px) and (max-width: 1024px) { 
@@ -12,6 +14,10 @@
 
 	h3 {
 		font-size: 1.45em !important;
+	}
+
+	main {
+		width: 75% !important;
 	}
 }
 
@@ -23,6 +29,10 @@
 	h3 {
 		font-size: 1.25em !important;
 	}
+
+	main {
+		width: 85% !important;
+	}
 }
 
 @media all and (max-width: 480px) { 
@@ -32,6 +42,10 @@
 
 	h3 {
 		font-size: 1.25em !important;
+	}
+
+	main {
+		width: 90% !important;
 	}
 }
 
@@ -54,7 +68,7 @@ body {
   }
 
 main {
-	width: 95% !important;
+	margin: 0 auto;
 }
 
 p {

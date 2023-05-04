@@ -7,6 +7,8 @@
 
 import * as d3 from "d3";
 
+
+
 import scrollama from "scrollama"; // or...
 const colors = require('./colors');
 const yAxisTickValues = require('./yAxisTicks');
@@ -82,7 +84,7 @@ const scroller = scrollama(); // initialize the scrollama
 
 // make an object that we can update in one place and call below
 let parameters = {
-	transitionDuration: 1500,
+	transitionDuration: 1250,
 	startColor: colors.lightGrey,
 	xDomain: [1977, 2024],
 	xTickValues: [1980, 1990, 2000, 2010, 2020],
