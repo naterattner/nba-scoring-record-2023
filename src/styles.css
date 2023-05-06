@@ -191,18 +191,21 @@ h3 {
 
 
 .svg-tooltip {
-    background: rgba(69,77,93,.9);
-    border-radius: .1rem;
-    color: #fff;
+    /* background: rgba(255, 255, 255, 0.9); */
+	background-color: rgba(255, 255, 255, 0.8) !important;
+	backdrop-filter: blur(5px) !important;
+	/* box-shadow: 0 0 1.5px 0 rgba(0, 0, 0, 0.4); */
+    color: #000000;
     display: block;
-    font-size: 11px;
-    max-width: 320px;
+    font-size: 0.9em;
+    /* max-width: 320px; */
     padding: .2rem .4rem;
     position: absolute;
     text-overflow: ellipsis;
     white-space: pre;
     z-index: 300;
     visibility: hidden;
+	border: 1px solid black;
   }
 
 

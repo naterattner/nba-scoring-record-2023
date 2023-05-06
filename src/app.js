@@ -453,33 +453,11 @@ function init() {
 		.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px")
 
 	d3.selectAll('.svg-tooltip')
-		.text(d.key)
-
-    // tooltipBar = svgBar.append("g")
-	// 	.attr("class", "tooltip")
-	// 	.attr("transform", `translate(${(xScaleBar(d[1]) + xScaleBar(d[0]))/2}, ${yScaleBar(d.data.season_year)})`)
-	// 	//   .attr('fill', 'white')
-	// 	.style('outline', 'solid 3px blue')
-	// 	.style('border-width', '1px')
-
-	// tooltip.append("circle")
-    //   .attr("r", 5)
-    //   .attr("stroke-width", 0)
-    //   .attr("fill", "black")
-
-	// tooltipBar.append("text")
-    //   // .attr("y", -8)
-	//   .attr("text-anchor", 'middle')
-    //   .text('null');
-
-	// let tooltipBarText = d3.select(".tooltip")
-	//   .selectAll("text")
-
-	// tooltipBarText.text(d.key)
-    // //   .attr("x", 0)
-    // //   .attr("y", -28)
-    //   .classed("tooltip-player", true)
-
+		.text(d.key + ', ')
+		.append(('text'))
+		.text(d.data.season_year + ', ')
+		.append(('text'))
+		.text(d[1] - d[0])
 	
   };
 
