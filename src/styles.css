@@ -114,7 +114,7 @@ h3 {
 }
 
 #outro {
-	margin-top: 60px;
+	margin-top: 40px;
 }
 
 .item-top {
@@ -185,10 +185,22 @@ h3 {
 	/* text-align: right; */
   }
 
-.bars {
-	border-radius: 50% !important;
+.source-line-scrolly {
+	font-size: .75em !important;
+	color: #666666 !important;
+	margin-top: 50px !important;
 }
 
+.footnote {
+	font-size: .75em !important;
+	color: #666666 !important;
+	margin-top: 10px !important;
+}
+
+.source-line {
+	font-size: .75em !important;
+	color: #666666 !important;
+}
 
 .svg-tooltip {
     /* background: rgba(255, 255, 255, 0.9); */
@@ -206,6 +218,11 @@ h3 {
     z-index: 300;
     visibility: hidden;
 	border: 1px solid black;
+  }
+
+  .segment-annotation {
+	font-size:0.9em;
+	font-weight: 400;
   }
 
 

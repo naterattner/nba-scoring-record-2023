@@ -394,19 +394,57 @@ function init() {
 			.attr("rx", 4.5)
 			.attr("width", d => xScaleBar(d[1]) - xScaleBar(d[0]))
 			.attr("height", yScaleBar.bandwidth())
-			// .attr("class", d => d.key.replace(/\s+/g, '-',).toLowerCase())
 			.attr("class", d => keyFormatter(d.key))
-			.append("title")
-			.text(d => `${d.data.season_year} ${d.key}`)
-			.append("count")
-			.text(d => d[1] - d[0])  
+
+	// ANNOTATION
+	// const segmentAnnotationLine = svgBar.append("line")
+	// 	.attr("x1", xScaleBar(7))
+	// 	.attr("x2", xScaleBar(11))
+	// 	.attr("y1", yScaleBar(1985) + (yScaleBar.bandwidth()/2)) // change this to the max tick value
+	// 	.attr("y2", yScaleBar(1985) + (yScaleBar.bandwidth()/2))
+	// 	.attr("stroke", "#171717")
+	// 	.attr("stroke-width", 1)
+	// 	.attr("class", "static-zero-line")
+	// 	.attr("mix-blend-mode", 'multiply')
+	// 	.attr('marker-end', 'url(#arrow)')
+
+	const segmentAnnotationLine = svgBar.append("line")
+		.attr("x1", xScaleBar(11.5))
+		.attr("x2", xScaleBar(11.5))
+		.attr("y1", yScaleBar(1991) + (yScaleBar.bandwidth()/8)) // change this to the max tick value
+		.attr("y2", yScaleBar(1993) + (yScaleBar.bandwidth()/4))
+		.attr("stroke", "#171717")
+		.attr("stroke-width", 1.5)
+		.attr("class", "static-zero-line")
+		.attr('marker-end', 'url(#arrow)')
+
+	const segmentAnnotationTextGroup = svgBar.append("g")
+		.attr("transform", `translate(${xScaleBar(11)}, ${yScaleBar(1994)})`)
+		.attr("class", "segment-annotation")
+	
+	const segmentAnnotationText = segmentAnnotationTextGroup.append("text")
+		.text("Each segment")
+		.attr("y", 6)
+	
+	segmentAnnotationTextGroup.append("text")
+		.text("represents a player")
+		.attr("y", +23)
+
+	d3.selectAll('.dale-ellis')
+		.attr('stroke', '#171717')
+		.attr('stroke-width', '2px')
+		.style('mix-blend-mode', 'multiply')
+
+	d3.selectAll('.terry-cummings')
+		.attr('stroke', '#ffffff')
+		.style('mix-blend-mode', 'multiply')
 	
 	// MAKE INVISIBLE TOOLTIP
 	tooltip = d3.select("body").append("div")
 		.attr("class", "svg-tooltip")
 		.style("position", "absolute")
 		.style("visibility", "hidden")
-		.text("Text goes here");
+		.text("");
 
 	// FIRE TOOLTIPS
 	svgBar.selectAll('rect')
@@ -430,46 +468,31 @@ function init() {
 	console.log(d[1] - d[0])
 	console.log(d.data)
 
-	//remove any existing tooltips
-	d3.selectAll(".tooltip").remove() 
-
-	//create and display tooltip)
-	// tooltipBar = svgBar.append("div")
-	// 	.attr("class", "tooltip")
-	// 	.style('position', 'absolute')
-	// 	.style("x", xScaleBar(20) + 'px')
-	// 	.style("y", yScaleBar(2000) + 'px')
-	// 	.style("width", 100 + 'px')
-	// 	.style("height", 100 + 'px')
-	// 	.style("opacity", 1)
-	// 	.style("background-color", "red")
-	// 	.style("border", "solid")
-	// 	.style("border-width", "2px")
-	// 	.style("border-radius", "5px")
-	// 	.style("padding", "5px")
-
 	tooltip
 		.style("visibility", "visible")
-		.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px")
+		.style("top", (event.pageY+10)+"px")
+		.style("left",(event.pageX+10)+"px")
 
 	d3.selectAll('.svg-tooltip')
 		.text(d.key + ', ')
 		.append(('text'))
-		.text(d.data.season_year + ', ')
+		.text(d.data.season_year + ': ' )
 		.append(('text'))
 		.text(d[1] - d[0] + ' game(s)')
 	
   };
 
   function onMouseLeave(event, d) {
+	console.log('mouse leave')
 	//remove highlight on bar segments
 	let hoveredRectClass = keyFormatter(d.key)
 	d3.selectAll('.' + hoveredRectClass)
     .attr('fill', colors.teal4)
 
-	//remove tooltip
-	d3.selectAll(".tooltip").remove() 
-	console.log('exit')
+	//hide tooltip
+	tooltip
+		.style("visibility", "hidden")
+	
   };
 
 
