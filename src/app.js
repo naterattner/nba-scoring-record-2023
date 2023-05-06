@@ -7,13 +7,9 @@
 
 import * as d3 from "d3";
 
-console.log(d3);
-
 import scrollama from "scrollama"; // or...
 const colors = require('./colors');
 const yAxisTickValues = require('./yAxisTicks');
-
-// console.log(yAxisTickValues.tickValues0)
 
 
 
@@ -85,6 +81,8 @@ let xAxisGroupBarBottom;
 let yAxisGroupBar;
 let bars;
 let barSegments;
+let tooltip;
+let tooltipBar;
 
 
 
@@ -94,7 +92,6 @@ const scrolly = main.select("#scrolly");
 const figure = scrolly.select("figure"); //sticky container outside of chart
 const article = scrolly.select("article");
 const step = article.selectAll(".step");
-// console.log(step)
 const scroller = scrollama(); // initialize the scrollama
 
 // make an object that we can update in one place and call below
@@ -149,12 +146,9 @@ Promise.all([
 		import('../data/20230429_20230326_quintiles_player_bins_with_overall.json'),
 		import('../data/50_pt_games_formatted.json')
 	]).then(([data, barData]) => {
-
-    // console.log("overall data:", data);
     
     rawDataSet = data;
 	barDataSet = barData;
-	console.log(barDataSet)
 
     init();
 
@@ -304,7 +298,6 @@ function init() {
 	//////////////////////////////////////////
 	
 	//STACK DATA FOR CHART
-	// console.log(Object.keys(barDataSet[0]))
 	const barColumns = Object.keys(barDataSet[0]) // array with season_year and then player names
 
 	series = d3.stack()
@@ -312,7 +305,6 @@ function init() {
 		.order(d3.stackOrderDescending)
 		(barDataSet)
 		.map(d => (d.forEach(v => v.key = d.key), d))
-	console.log(series)
 	
 	// + SCALES
 	xScaleBar = d3.scaleLinear()
@@ -384,10 +376,6 @@ function init() {
 			})
 		)
 
-	testString = "D'Angelo Russell"
-	let formattedTestString = keyFormatter(testString);
-	console.log(formattedTestString)
-
 	// DRAW BARS
 	bars = svgBar.append("g")
 		.selectAll("g")
@@ -412,38 +400,119 @@ function init() {
 			.text(d => `${d.data.season_year} ${d.key}`)
 			.append("count")
 			.text(d => d[1] - d[0])  
+	
+	// MAKE INVISIBLE TOOLTIP
+	tooltip = d3.select("body").append("div")
+		.attr("class", "svg-tooltip")
+		.style("position", "absolute")
+		.style("visibility", "hidden")
+		.text("Text goes here");
 
-	// MAKE TOOLTIPS
+	// FIRE TOOLTIPS
 	svgBar.selectAll('rect')
 		.on("mouseover",(event, d)=>{
-		//check what we're passing to the m_over function
-			console.log('data:', d); 
 			onMouseEnter(event, d);
 		})
 		.on("mouseleave",(event, d)=>{
-			onMouseLeave(d);
+			onMouseLeave(event, d);
 		})
   };
 
   function onMouseEnter(event, d) {
-	console.log(d)
+	//highlight bar segments
 	let hoveredRectClass = keyFormatter(d.key)
-	
-	console.log(event.clientX)
-	console.log(event.clientY)
-
 	d3.selectAll('.' + hoveredRectClass)
     .attr('fill', '#89D5D2')
 
+	//update tooltip
+	console.log(d.key)
+	console.log(d.data.season_year)
+	console.log(d[1] - d[0])
+	console.log(d.data)
+
+	//remove any existing tooltips
+	d3.selectAll(".tooltip").remove() 
+
+	//create and display tooltip)
+	// tooltipBar = svgBar.append("div")
+	// 	.attr("class", "tooltip")
+	// 	.style('position', 'absolute')
+	// 	.style("x", xScaleBar(20) + 'px')
+	// 	.style("y", yScaleBar(2000) + 'px')
+	// 	.style("width", 100 + 'px')
+	// 	.style("height", 100 + 'px')
+	// 	.style("opacity", 1)
+	// 	.style("background-color", "red")
+	// 	.style("border", "solid")
+	// 	.style("border-width", "2px")
+	// 	.style("border-radius", "5px")
+	// 	.style("padding", "5px")
+
+	tooltip
+		.style("visibility", "visible")
+		.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px")
+
+	d3.selectAll('.svg-tooltip')
+		.text(d.key)
+
+    // tooltipBar = svgBar.append("g")
+	// 	.attr("class", "tooltip")
+	// 	.attr("transform", `translate(${(xScaleBar(d[1]) + xScaleBar(d[0]))/2}, ${yScaleBar(d.data.season_year)})`)
+	// 	//   .attr('fill', 'white')
+	// 	.style('outline', 'solid 3px blue')
+	// 	.style('border-width', '1px')
+
+	// tooltip.append("circle")
+    //   .attr("r", 5)
+    //   .attr("stroke-width", 0)
+    //   .attr("fill", "black")
+
+	// tooltipBar.append("text")
+    //   // .attr("y", -8)
+	//   .attr("text-anchor", 'middle')
+    //   .text('null');
+
+	// let tooltipBarText = d3.select(".tooltip")
+	//   .selectAll("text")
+
+	// tooltipBarText.text(d.key)
+    // //   .attr("x", 0)
+    // //   .attr("y", -28)
+    //   .classed("tooltip-player", true)
+
+	
   };
 
-  function onMouseLeave(d) {
+  function onMouseLeave(event, d) {
+	//remove highlight on bar segments
 	let hoveredRectClass = keyFormatter(d.key)
-
 	d3.selectAll('.' + hoveredRectClass)
     .attr('fill', colors.teal4)
 
+	//update tooltip
+	// updateTooltip(event);
+	// d3.selectAll(".tooltip").remove()
   };
+
+
+
+
+//   function updateTooltip(event, d){
+
+// 	console.log(d[1])
+// 	//remove any existing tooltips
+//     d3.selectAll(".tooltip").remove()
+
+// 	//create and display tooltip)
+//     tooltipBar = svgBar.append("g")
+//       .attr("class", "tooltip")
+//       .attr("transform", `translate(${event.clientX}, ${event.clientY})`)
+	
+// 	tooltipBar.append("circle")
+//       .attr("r", 5)
+//       .attr("stroke-width", 0)
+//       .attr("fill", "black")
+//   };
 
 	
   
