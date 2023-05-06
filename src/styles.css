@@ -106,6 +106,10 @@ h3 {
 	margin-bottom: 10px !important;
 }
 
+/* #line-chart-title-one {
+	text-decoration: underline;
+} */
+
 #bar-chart-title {
 	text-align: left !important;
 	font-size: 1em !important;
@@ -143,6 +147,21 @@ h3 {
 	margin-left: 1px;
 	border-radius: 4px;
 	white-space: nowrap;
+}
+
+.item-title {
+	/* text-decoration: underline; */
+	font-weight: 700;
+	/* background: #f0c294; */
+	/* color: #6f748c; */
+	padding-top: 2px;
+	padding-bottom: 2px;
+	/* padding-left: 3px; */
+	/* padding-right: 3px; */
+	/* margin-right: 1px;
+	margin-left: 1px; */
+	border-radius: 4px;
+	/* white-space: nowrap; */
 }
 
 

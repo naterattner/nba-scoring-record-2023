@@ -118,12 +118,12 @@ let parameters = {
 		yAxisTickValues.tickValues5,
 	],
 	chartTitles: [
-		'Points per game, all NBA teams',
-		'Points per game, all NBA teams',
-		'Points per game, by NBA player scoring quintile',
-		'Points per game, by NBA player scoring quintile',
-		'Three-point shots made per game, by NBA player scoring quintile',
-		'Assists per game, by NBA player scoring quintile'
+		"Points per game, all NBA teams",
+		"Points per game, all NBA teams",
+		"Points per game, by tier of NBA scorers",
+		"Points per game, by tier of NBA scorers",
+		"Three-point shots made per game, by tier of NBA scorers",
+		"Assists per game, by tier of NBA scorers"
 	],
 	lineLabelXValue: 2023,
 	topPlayersLabelYValues: [100, 100, 23.5, 23.5, 2.2, 5.08],
