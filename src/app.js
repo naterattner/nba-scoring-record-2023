@@ -312,7 +312,6 @@ function init() {
 		.order(d3.stackOrderDescending)
 		(barDataSet)
 		.map(d => (d.forEach(v => v.key = d.key), d))
-		
 	console.log(series)
 	
 	// + SCALES
@@ -335,6 +334,15 @@ function init() {
 	drawBars();	
 	// draw(); // calls the draw function
   }
+
+  // Function to format the class names we'll give each bar segment
+	function keyFormatter(key) {
+		let noSpaces = key.replace(/\s+/g, '-',).toLowerCase()
+		let noPeriods = noSpaces.replace(/\./g,'')
+		let noApostrophes = noPeriods.replace(/'/g,'')
+
+		return noApostrophes
+	};
 
   function drawBars() {
 	
@@ -376,13 +384,17 @@ function init() {
 			})
 		)
 
+	testString = "D'Angelo Russell"
+	let formattedTestString = keyFormatter(testString);
+	console.log(formattedTestString)
 
 	// DRAW BARS
 	bars = svgBar.append("g")
 		.selectAll("g")
 		.data(series)
 		.join("g")
-			.attr("fill", '#89D5D2')
+			.attr("fill", colors.teal4)
+			// #89D5D2
 			.attr('stroke', 'white')
 			.attr('stroke-width', 1)
 			.attr('class', 'bars')
@@ -394,17 +406,44 @@ function init() {
 			.attr("rx", 4.5)
 			.attr("width", d => xScaleBar(d[1]) - xScaleBar(d[0]))
 			.attr("height", yScaleBar.bandwidth())
-			.attr("class", d => d.key.replace(/\s+/g, '-').toLowerCase())
+			// .attr("class", d => d.key.replace(/\s+/g, '-',).toLowerCase())
+			.attr("class", d => keyFormatter(d.key))
 			.append("title")
 			.text(d => `${d.data.season_year} ${d.key}`)
 			.append("count")
 			.text(d => d[1] - d[0])  
 
+	// MAKE TOOLTIPS
+	svgBar.selectAll('rect')
+		.on("mouseover",(event, d)=>{
+		//check what we're passing to the m_over function
+			console.log('data:', d); 
+			onMouseEnter(event, d);
+		})
+		.on("mouseleave",(event, d)=>{
+			onMouseLeave(d);
+		})
+  };
+
+  function onMouseEnter(event, d) {
+	console.log(d)
+	let hoveredRectClass = keyFormatter(d.key)
 	
+	console.log(event.clientX)
+	console.log(event.clientY)
 
+	d3.selectAll('.' + hoveredRectClass)
+    .attr('fill', '#89D5D2')
 
+  };
 
-  	};
+  function onMouseLeave(d) {
+	let hoveredRectClass = keyFormatter(d.key)
+
+	d3.selectAll('.' + hoveredRectClass)
+    .attr('fill', colors.teal4)
+
+  };
 
 	
   
@@ -448,7 +487,7 @@ function init() {
 	// 		.duration(parameters.transitionDuration)
 	// 		.attr("transform", `translate(${xScale(parameters.lineLabelXValue)}, ${yScale(25)})`)
 
-  }
+  };
 
 
 /* SCROLL INTERACTIONS */
