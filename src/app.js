@@ -36,8 +36,10 @@ const yAxisTickValues = require('./yAxisTicks');
 /* CONSTANTS AND GLOBALS */
 const width = window.innerWidth * 0.7,
   height = window.innerHeight * 0.7,
+  heightBar = window.innerHeight * 0.95,
 //   margin = { top: 20, bottom: 50, left: 60, right: 60 };
 margin = { top: 20, bottom: 25, left: 23, right: 60 };
+marginBar = { top: 20, bottom: 25, left: 32, right: 60 };
 
 const lineColors = {
 	'overall' : colors.orange3,
@@ -71,6 +73,19 @@ let topPlayersLabelGroup; //svg group for line label
 let topPlayersTextLabel; //text for line label
 let bottomPlayersLabelGroup;
 let bottomPlayersTextLabel;
+
+let svgBar;
+let xScaleBar; // maybe move this to const -- won't change by data
+let yScaleBar;
+let xAxisBarTop;
+let xAxisBarBottom;
+let yAxisBar;
+let xAxisGroupBarTop;
+let xAxisGroupBarBottom; 
+let yAxisGroupBar;
+let bars;
+let barSegments;
+
 
 
 // these are variables set up for use in the scrolly
@@ -116,6 +131,9 @@ let parameters = {
 	lineLabelXValue: 2023,
 	topPlayersLabelYValues: [100, 100, 23.5, 23.5, 2.2, 5.08],
 	bottomPlayersLabelYValues: [100, 100, 4.8, 4.8, 0.6, 1],
+	xTickValuesBars: [0, 5, 10, 15, 20, 25],
+	yTickValueBars: yAxisTickValues.yTickValuesBars,
+	yTickLabelBars: yAxisTickValues.yTickLabelBars
 };
 
 /* APPLICATION STATE */
@@ -127,24 +145,29 @@ let state = {
   
 /* LOAD DATA */
 // + SET YOUR DATA PATH
-import('../data/20230429_20230326_quintiles_player_bins_with_overall.json').then(data => {
-    // console.log("loaded data:", data);
-    
-	//set up datasets we'll use
-	rawDataSet = data;
-	// overallData = data.filter(d => d.pts_bin === 'overall');
-	// groupsData = data.filter(d => d.pts_bin != 'overall')
+Promise.all([
+		import('../data/20230429_20230326_quintiles_player_bins_with_overall.json'),
+		import('../data/50_pt_games_formatted.json')
+	]).then(([data, barData]) => {
 
-	//start with overallData
-	// state.data = data;
+    // console.log("overall data:", data);
+    
+    rawDataSet = data;
+	barDataSet = barData;
+	console.log(barDataSet)
 
     init();
-  })
+
+  });
 
 
 /* INITIALIZING FUNCTION */
 // this will be run *one time* when the data finishes loading in
 function init() {
+
+	//////////////////////////////////////////
+	//////////// SCROLLY LINES ///////////////
+	//////////////////////////////////////////
 
 	//SET UP DATASETS WE WILL USE
 	//overall data
@@ -202,7 +225,7 @@ function init() {
 	yAxis = d3.axisLeft(yScale)
   
 	// + CREATE SVG ELEMENT
-	svg = d3.select("#chart-container")
+	svg = d3.select("#line-chart-container")
 		.append("svg")
 		.attr("width", width)
 		.attr("height", height)
@@ -274,9 +297,116 @@ function init() {
 		.attr("y", 5)
 		.attr("fill", colors.orange2)
   
+
+
+  	//////////////////////////////////////////
+	//////////// STACKED BAR /////////////////
+	//////////////////////////////////////////
+	
+	//STACK DATA FOR CHART
+	// console.log(Object.keys(barDataSet[0]))
+	const barColumns = Object.keys(barDataSet[0]) // array with season_year and then player names
+
+	series = d3.stack()
+		.keys(barColumns.slice(1))
+		.order(d3.stackOrderDescending)
+		(barDataSet)
+		.map(d => (d.forEach(v => v.key = d.key), d))
+		
+	console.log(series)
+	
+	// + SCALES
+	xScaleBar = d3.scaleLinear()
+		.domain([0, d3.max(series, d => d3.max(d, d => d[1]))])
+		.range([marginBar.left, width - marginBar.right])
+
+	yScaleBar = d3.scaleBand()
+		.domain(barDataSet.map(d => d.season_year))
+		.range([marginBar.top, heightBar - marginBar.bottom])
+		.padding(0.08)
   
+	// + CREATE SVG ELEMENT
+	svgBar = d3.select("#bar-chart-container")
+		.append("svg")
+		.attr("width", width)
+		.attr("height", heightBar)
+  
+	// DRAW BARS
+	drawBars();	
 	// draw(); // calls the draw function
   }
+
+  function drawBars() {
+	
+	// AXES (before drawing bars so that gridlines are on bottom)
+	xAxisBarTop = d3.axisTop(xScaleBar)
+	xAxisBarBottom = d3.axisBottom(xScaleBar)
+
+	yAxisBar = d3.axisLeft(yScaleBar)
+	
+  
+	// + CALL AXES 
+	xAxisGroupBarTop = svgBar.append("g")
+		.attr("transform", `translate(${0}, ${marginBar.top})`)
+		.attr('class', 'x-axis-group-bars')
+		.call(xAxisBarTop
+			.tickValues(parameters.xTickValuesBars)
+			.tickPadding(5)
+			.tickSizeInner(-heightBar+marginBar.bottom+10)
+			)
+
+	xAxisGroupBarBottom = svgBar.append("g")
+		.attr("transform", `translate(${0}, ${heightBar - marginBar.bottom + 5})`)
+		.attr('class', 'x-axis-group-bars')
+		.call(xAxisBarBottom
+			.tickValues(parameters.xTickValuesBars)
+			.tickPadding(5)
+			// .tickSizeInner(-heightBar+margin.bottom)
+			)
+
+	yAxisGroupBar = svgBar.append("g")
+		.attr("transform", `translate(${marginBar.left},0)`)
+		.attr('class', 'y-axis-group')
+		.call(yAxisBar
+			.tickSizeInner(0)
+			.tickPadding(5)
+			.tickValues(parameters.yTickValueBars)
+			.tickFormat(function(d, i){
+				return parameters.yTickLabelBars[i];
+			})
+		)
+
+
+	// DRAW BARS
+	bars = svgBar.append("g")
+		.selectAll("g")
+		.data(series)
+		.join("g")
+			.attr("fill", '#89D5D2')
+			.attr('stroke', 'white')
+			.attr('stroke-width', 1)
+			.attr('class', 'bars')
+		.selectAll("rect")
+		.data(d => d)
+		.join("rect")
+			.attr("x", d => xScaleBar(d[0]))
+			.attr("y", (d, i) => yScaleBar(d.data.season_year))
+			.attr("rx", 4.5)
+			.attr("width", d => xScaleBar(d[1]) - xScaleBar(d[0]))
+			.attr("height", yScaleBar.bandwidth())
+			.attr("class", d => d.key.replace(/\s+/g, '-').toLowerCase())
+			.append("title")
+			.text(d => `${d.data.season_year} ${d.key}`)
+			.append("count")
+			.text(d => d[1] - d[0])  
+
+	
+
+
+
+  	};
+
+	
   
   /* DRAW FUNCTION */ 
   // MAYBE RENAME THIS TRANSITION
@@ -325,7 +455,7 @@ function init() {
 function updateChartTitle(response) {
 	if ((state.step === 2 || state.step === 4 || state.step === 5) && (response.direction == 'down')) {
 		
-		figure.select("#chart-title")
+		figure.select("#line-chart-title")
 			.transition()
 			.duration(parameters.transitionDuration / 2)
 			.style("opacity", 0)
@@ -336,7 +466,7 @@ function updateChartTitle(response) {
 
 	} else if ((state.step === 4 || state.step === 3 || state.step === 1) && (response.direction == 'up')) {
 		
-		figure.select("#chart-title")
+		figure.select("#line-chart-title")
 			.transition()
 			.duration(parameters.transitionDuration / 2)
 			.style("opacity", 0)

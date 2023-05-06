@@ -31,3 +31,30 @@ exports.tickValues2 = tickValues2;
 exports.tickValues3 = tickValues3;
 exports.tickValues4 = tickValues4;
 exports.tickValues5 = tickValues5;
+
+// BAR TICK Values
+const yTickValuesBars = [1977,
+						 1980,
+						 1990,
+						 2000,
+						 2010,
+						 2020,
+						 2023
+						];
+
+// export
+exports.yTickValuesBars = yTickValuesBars;
+
+
+// BAR TICK LABELS
+const yTickLabelBars = ['1977', 
+						'\'80',
+						'\'90',
+						'2000',
+						'\'10',
+						'\'20',
+						'\'23',
+					];
+
+// export
+exports.yTickLabelBars = yTickLabelBars;

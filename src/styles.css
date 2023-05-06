@@ -99,11 +99,18 @@ h3 {
 	margin-bottom:30px !important;
 }
 
-#chart-title {
+#line-chart-title {
 	text-align: left !important;
 	font-size: 1em !important;
 	font-weight: 600 !important;
 	margin-bottom: 10px !important;
+}
+
+#bar-chart-title {
+	text-align: left !important;
+	font-size: 1em !important;
+	font-weight: 600 !important;
+	margin-bottom: 25px !important;
 }
 
 #outro {
@@ -146,14 +153,23 @@ h3 {
 	font-size:1.2em !important;
 }
   
-.x-axis-group text {
+.x-axis-group text, .x-axis-group-bars text {
 	font-family: 'PT Sans' !important;
 	font-size:1.2em !important;
 }
 
 .y-axis-group g line {
-    	stroke:  #e0e0e0;
+    	stroke:  #e0e0e0 !important;
 	}
+
+.x-axis-group g line {
+	stroke:  #000000 !important;
+}
+
+.x-axis-group-bars g line {
+	stroke:  #e0e0e0 !important;
+	mix-blend-mode: multiply !important;
+}
 
 .domain {
 	display: none !important;
@@ -168,6 +184,10 @@ h3 {
 	font-size: .88em !important;
 	/* text-align: right; */
   }
+
+.bars {
+	border-radius: 50%;
+}
 
 
 /* SCROLL ELEMENTS */
