@@ -457,7 +457,7 @@ function init() {
 		.append(('text'))
 		.text(d.data.season_year + ', ')
 		.append(('text'))
-		.text(d[1] - d[0])
+		.text(d[1] - d[0] + ' game(s)')
 	
   };
 
@@ -467,9 +467,9 @@ function init() {
 	d3.selectAll('.' + hoveredRectClass)
     .attr('fill', colors.teal4)
 
-	//update tooltip
-	// updateTooltip(event);
-	// d3.selectAll(".tooltip").remove()
+	//remove tooltip
+	d3.selectAll(".tooltip").remove() 
+	console.log('exit')
   };
 
 

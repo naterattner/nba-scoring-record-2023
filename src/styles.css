@@ -186,7 +186,7 @@ h3 {
   }
 
 .bars {
-	border-radius: 50%;
+	border-radius: 50% !important;
 }
 
 
