@@ -606,7 +606,7 @@ function handleStepEnter(response) {
 
 	// update step
 	state.step = response.index + 1;
-	console.log(state.step);
+	// console.log(state.step);
 
 	//update chart title based on step
 	updateChartTitle(response);
