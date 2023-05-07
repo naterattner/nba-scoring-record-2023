@@ -6,7 +6,7 @@
     "prebuild-dev": "shx rm -rf dist/*",
     "build-dev": "parcel build ./src/index.html",
     "prebuild": "shx rm -rf dist/*",
-    "build": "parcel build ./src/index.html --public-url ./",
+    "build": "parcel build ./src/index.html --no-scope-hoist --public-url ./",
     "push-gh-pages": "push-dir --dir=dist --branch=gh-pages --cleanup --verbose"
   },
   "devDependencies": {
