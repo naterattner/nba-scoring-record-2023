@@ -2,6 +2,14 @@
 
 /* Special for mobile */
 @media all and (min-width: 1024px) and (max-width: 1580px) { 
+	h1 {
+		font-size: 2.9em !important;
+	}
+
+	h3 {
+		font-size: 1.55em !important;
+	}
+	
 	main {
 		width: 67% !important;
 	}
@@ -89,6 +97,7 @@ h1 {
 
 h3 {
 	margin: 0.25em 0 !important;
+	margin-bottom: 30px  !important;
 	text-align:center !important;
 	font-weight: 300 !important;
 }
