@@ -68,7 +68,7 @@ body {
   }
 
 main {
-	margin: 0 auto;
+	margin: 0 auto !important;
 }
 
 p {
@@ -118,7 +118,7 @@ h3 {
 }
 
 #outro {
-	margin-top: 40px;
+	margin-top: 40px !important;
 }
 
 .item-top {
@@ -222,40 +222,35 @@ h3 {
 }
 
 .svg-tooltip {
-    /* background: rgba(255, 255, 255, 0.9); */
 	background-color: rgba(255, 255, 255, 0.8) !important;
 	backdrop-filter: blur(5px) !important;
-	/* box-shadow: 0 0 1.5px 0 rgba(0, 0, 0, 0.4); */
-    color: #000000;
-    display: block;
-    font-size: 0.9em;
-    /* max-width: 320px; */
-    padding: .2rem .4rem;
-    position: absolute;
-    text-overflow: ellipsis;
-    white-space: pre;
-    z-index: 300;
-    visibility: hidden;
-	border: 1px solid black;
+    color: #000000 !important;
+    display: block !important;
+    font-size: 0.9em !important;
+    padding: .2rem .4rem !important;
+    position: absolute !important;
+    text-overflow: ellipsis !important;
+    white-space: pre !important;
+    z-index: 300 !important;
+    visibility: hidden !important;
+	border: 1px solid black !important;
   }
 
   .segment-annotation {
-	font-size:0.9em;
-	font-weight: 400;
+	font-size:0.9em !important;
+	font-weight: 400 !important;
   }
 
 
 /* SCROLL ELEMENTS */
 #scrolly {
 	position: relative !important;
-	/* background-color: #f3f3f3 !important; */
 	padding: 1rem !important;
 }
 
 article {
 	position: relative !important;
 	padding: 0 !important;
-	/* max-width: 20rem !important; */
 	margin: 0 auto !important;
 }
 
@@ -289,24 +284,15 @@ figure p {
 .step {
 	margin: 0 auto !important;
 	/* width: 100%; */
-	max-width: 45%;
-	min-width: 275px;
+	max-width: 45% !important;
+	min-width: 275px !important;
 	/* color: #fff !important; */
 	background-color: rgba(255, 255, 255, 0.85) !important;
 	backdrop-filter: blur(5px) !important;
-	box-shadow: 0 0 1.5px 0 rgba(0, 0, 0, 0.4);
+	box-shadow: 0 0 1.5px 0 rgba(0, 0, 0, 0.4) !important;
 	margin-bottom: 800px !important;
 	
 }
-
-/* .step:last-child {
-	margin-bottom: 0 !important;
-} */
-
-/* .step.is-active p {
-	background-color: goldenrod !important;
-	color: #3b3b3b !important;
-} */
 
 .step p {
 	/* text-align: center !important; */

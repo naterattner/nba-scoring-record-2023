@@ -1,10 +1,3 @@
-// import 'regenerator-runtime/runtime'
-
-// import { scaleBand, ScaleBand, scaleLinear, extent, min, max, axisBottom, axisLeft, line, curveLinear, easeCubic } from "d3";
-// import { select, selectAll } from "d3-selection";
-// import { group, groups } from "d3-array";
-// import { extent, min, max } from "d3";
-
 import * as d3 from "d3";
 // console.log(d3);
 
@@ -13,30 +6,12 @@ const colors = require('./colors');
 const yAxisTickValues = require('./yAxisTicks');
 
 
-
-// const d3 = {
-// 	select,
-// 	selectAll,
-// 	scaleLinear,
-// 	group,
-// 	groups,
-// 	extent,
-// 	min,
-// 	max,
-// 	axisBottom,
-// 	axisLeft,
-// 	line,
-// 	curveLinear,
-// 	easeCubic
-// }
-
 /* CONSTANTS AND GLOBALS */
 const width = window.innerWidth * 0.7,
-  height = window.innerHeight * 0.7,
-  heightBar = window.innerHeight * 0.95,
-//   margin = { top: 20, bottom: 50, left: 60, right: 60 };
-margin = { top: 20, bottom: 25, left: 23, right: 60 },
-marginBar = { top: 20, bottom: 25, left: 32, right: 60 };
+	  height = window.innerHeight * 0.7,
+	  heightBar = window.innerHeight * 0.95,
+	  margin = { top: 20, bottom: 25, left: 23, right: 60 }, 
+	  marginBar = { top: 20, bottom: 25, left: 32, right: 60 };
 
 const lineColors = {
 	'overall' : colors.orange3,
@@ -46,19 +21,14 @@ const lineColors = {
 	4 : colors.orange3,
 	5 : colors.orange4,
 }
-
-// transitionDuration = 1500;
-// startColor = colors.grey
-// xAxisDates = []
-
   
 // these variables allow us to access anything we manipulate in init() but need access to in draw().
 // All these variables are empty before we assign something to them.
 let svg;
-let xScale; // maybe move this to const -- won't change by data
+let xScale; 
 let yScale;
 let yAxis;
-let xAxisGroup; // maybe move this to const -- won't change by data
+let xAxisGroup; 
 let yAxisGroup;
 let lineGen; //line generator function
 let lines;
@@ -71,8 +41,9 @@ let topPlayersTextLabel; //text for line label
 let bottomPlayersLabelGroup;
 let bottomPlayersTextLabel;
 
+//for bar chart
 let svgBar;
-let xScaleBar; // maybe move this to const -- won't change by data
+let xScaleBar; 
 let yScaleBar;
 let xAxisBarTop;
 let xAxisBarBottom;
@@ -85,8 +56,6 @@ let barSegments;
 let tooltip;
 let tooltipBar;
 
-
-
 // these are variables set up for use in the scrolly
 const main = d3.select("main");
 const scrolly = main.select("#scrolly");
@@ -95,7 +64,7 @@ const article = scrolly.select("article");
 const step = article.selectAll(".step");
 const scroller = scrollama(); // initialize the scrollama
 
-// make an object that we can update in one place and call below
+// make an object with settings we can update in one place and call below
 let parameters = {
 	transitionDuration: 1250,
 	startColor: colors.lightGrey,
@@ -178,7 +147,6 @@ function init() {
 
 	//put these in an array which we will cycle through based on the scrolly step
 	dataSets = [startData, groupedChartData, groupedChartData, groupedChartData, groupedChartData]
-	// dataSets = [groupedChartData, groupedChartData, groupedChartData, groupedChartData]
 
 	//start with startData
 	state.data = startData;
@@ -210,7 +178,6 @@ function init() {
 		.range([margin.right, width - margin.left])
 
 	yScale = d3.scaleLinear()
-		// .domain([d3.min(state.data.flat(), d => d[state.yAxisMetric]), d3.max(state.data.flat(), d => d[state.yAxisMetric])])
 		.domain(parameters.yDomains[state.step])
 		.range([height - margin.top, margin.bottom])
   
@@ -262,7 +229,6 @@ function init() {
 		.attr("class", 'line')
 		.attr("data-name", d => d[0].pts_bin) // give each line a data-name attribute of its pts_bin
 		.attr("fill", "none")
-		// .attr("stroke", colors.blue)
 		.attr("stroke", d => lineColors[d[0].pts_bin])
 		.attr("stroke-width", 0)
 		// .attr("fake", d=> console.log(d[0].pts_bin))
@@ -271,7 +237,6 @@ function init() {
 	topPlayersLabelGroup = svg.append("g")
 		.attr("transform", `translate(${xScale(parameters.lineLabelXValue)}, ${yScale(parameters.topPlayersLabelYValues[state.step])})`)
 		.attr("class", "line-label")
-		// .attr("class", "top-players-label")
 		.style("opacity", 0)
 	
 	topPlayersTextLabel = topPlayersLabelGroup.append("text")
@@ -283,7 +248,6 @@ function init() {
 	bottomPlayersLabelGroup = svg.append("g")
 		.attr("transform", `translate(${xScale(parameters.lineLabelXValue)}, ${yScale(parameters.bottomPlayersLabelYValues[state.step])})`)
 		.attr("class", "line-label")
-		// .attr("class", "bottom-players-label")
 		.style("opacity", 0)
 	
 	bottomPlayersTextLabel = bottomPlayersLabelGroup.append("text")
@@ -325,7 +289,6 @@ function init() {
   
 	// DRAW BARS
 	drawBars();	
-	// draw(); // calls the draw function
   }
 
   // Function to format the class names we'll give each bar segment
@@ -337,7 +300,7 @@ function init() {
 		return noApostrophes
 	};
 
-  function drawBars() {
+  	function drawBars() {
 	
 	// AXES (before drawing bars so that gridlines are on bottom)
 	xAxisBarTop = d3.axisTop(xScaleBar)
@@ -362,7 +325,6 @@ function init() {
 		.call(xAxisBarBottom
 			.tickValues(parameters.xTickValuesBars)
 			.tickPadding(5)
-			// .tickSizeInner(-heightBar+margin.bottom)
 			)
 
 	yAxisGroupBar = svgBar.append("g")
@@ -383,7 +345,6 @@ function init() {
 		.data(series)
 		.join("g")
 			.attr("fill", colors.teal4)
-			// #89D5D2
 			.attr('stroke', 'white')
 			.attr('stroke-width', 1.25)
 			.attr('class', 'bars')
@@ -401,7 +362,7 @@ function init() {
 	const segmentAnnotationLine = svgBar.append("line")
 		.attr("x1", xScaleBar(11.5))
 		.attr("x2", xScaleBar(11.5))
-		.attr("y1", yScaleBar(1991) + (yScaleBar.bandwidth()/8)) // change this to the max tick value
+		.attr("y1", yScaleBar(1991) + (yScaleBar.bandwidth()/8)) 
 		.attr("y2", yScaleBar(1993) + (yScaleBar.bandwidth()/4))
 		.attr("stroke", "#171717")
 		.attr("stroke-width", 1.5)
@@ -453,11 +414,6 @@ function init() {
     .attr('fill', '#8edede')
 
 	//update tooltip
-	console.log(d.key)
-	console.log(d.data.season_year)
-	console.log(d[1] - d[0])
-	console.log(d.data)
-
 	tooltip
 		.style("visibility", "visible")
 		.style("top", (event.pageY+10)+"px")
@@ -473,7 +429,6 @@ function init() {
   };
 
   function onMouseLeave(event, d) {
-	console.log('mouse leave')
 	//remove highlight on bar segments
 	let hoveredRectClass = keyFormatter(d.key)
 	d3.selectAll('.' + hoveredRectClass)
@@ -485,36 +440,14 @@ function init() {
 	
   };
 
-
-
-
-//   function updateTooltip(event, d){
-
-// 	console.log(d[1])
-// 	//remove any existing tooltips
-//     d3.selectAll(".tooltip").remove()
-
-// 	//create and display tooltip)
-//     tooltipBar = svgBar.append("g")
-//       .attr("class", "tooltip")
-//       .attr("transform", `translate(${event.clientX}, ${event.clientY})`)
-	
-// 	tooltipBar.append("circle")
-//       .attr("r", 5)
-//       .attr("stroke-width", 0)
-//       .attr("fill", "black")
-//   };
-
 	
   
-  /* DRAW FUNCTION */ 
-  // MAYBE RENAME THIS TRANSITION
-  // we call this every time there is an update to the data/state
+  /* TRANSITION FUNCTION */ 
+  // we call this every time there is an update to the step
   function draw(response) {
 	// + FILTER DATA BASED ON STATE
 	const stepData = state.data
-	  // .filter(d => d.country === state.selection)
-  
+
 	// + UPDATE SCALE(S), if needed
 	yScale.domain(parameters.yDomains[state.step])
 	
@@ -531,22 +464,15 @@ function init() {
 	d3.selectAll(".line")
 		.data(state.data)
 		.attr("data-name", d => d[0].pts_bin) // give each line a data-name attribute of its pts_bin
-		// .attr("fake", d=> console.log(d[0].pts_bin))
 		.transition()
 		.ease(d3.easeCubic)
 		.duration(parameters.transitionDuration)
 			.attr("d",lineGen)
 			.attr('stroke-width', 2.5)
-			// .attr("stroke", function(d){ return lineColors[d[0].pts_bin] })
 			.attr("stroke", d => lineColors[d[0].pts_bin])
 	
 	// UPDATE LINE LABELS
 	updateLineLabels(response);
-	// topPlayersLabelGroup
-	// 	.transition()
-	// 		.duration(parameters.transitionDuration)
-	// 		.attr("transform", `translate(${xScale(parameters.lineLabelXValue)}, ${yScale(25)})`)
-
   };
 
 
@@ -632,16 +558,8 @@ function updateLineLabels(response) {
 	} else {
 		// pass
 	};
-
-
-
-
-
-	
-
-	
-	
 };
+
 
 function highlightTopAndBottom() {
 	svg.selectAll("[data-name='1']")
@@ -656,7 +574,6 @@ function highlightTopAndBottom() {
 		.ease(d3.easeBackIn)
 		.delay(1000) 
 		.duration(400)
-		// .attr('stroke', colors.grey)
     	.attr("stroke-width", "7")
 };
 
@@ -693,9 +610,6 @@ function handleStepEnter(response) {
 
 	//update chart title based on step
 	updateChartTitle(response);
-
-	//update line labels based on step
-	// addLineLabels(response);
 
 	// update data based on step
 	state.data = dataSets[response.index] //dataset -- we may be able to remove this later
