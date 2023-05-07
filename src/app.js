@@ -35,7 +35,7 @@ const width = window.innerWidth * 0.7,
   height = window.innerHeight * 0.7,
   heightBar = window.innerHeight * 0.95,
 //   margin = { top: 20, bottom: 50, left: 60, right: 60 };
-margin = { top: 20, bottom: 25, left: 23, right: 60 };
+margin = { top: 20, bottom: 25, left: 23, right: 60 },
 marginBar = { top: 20, bottom: 25, left: 32, right: 60 };
 
 const lineColors = {
