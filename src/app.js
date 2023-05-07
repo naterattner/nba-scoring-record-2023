@@ -6,7 +6,7 @@
 // import { extent, min, max } from "d3";
 
 import * as d3 from "d3";
-console.log(d3);
+// console.log(d3);
 
 import scrollama from "scrollama"; // or...
 const colors = require('./colors');
