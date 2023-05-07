@@ -127,8 +127,8 @@ let parameters = {
 		"Assists per game, by tier of NBA scorers"
 	],
 	lineLabelXValue: 2023,
-	topPlayersLabelYValues: [100, 100, 23.5, 23.5, 2.2, 5.08],
-	bottomPlayersLabelYValues: [100, 100, 4.8, 4.8, 0.6, 1],
+	topPlayersLabelYValues: [100, 100, 22.85, 22.85, 2.16, 4.9],
+	bottomPlayersLabelYValues: [100, 100, 3.95, 3.95, 0.48, 0.98],
 	xTickValuesBars: [0, 5, 10, 15, 20, 25],
 	yTickValueBars: yAxisTickValues.yTickValuesBars,
 	yTickLabelBars: yAxisTickValues.yTickLabelBars
@@ -144,7 +144,7 @@ let state = {
 /* LOAD DATA */
 // + SET YOUR DATA PATH
 Promise.all([
-		import('../data/20230429_20230326_quintiles_player_bins_with_overall.json'),
+		import('../data/final_quintiles_player_bins_with_overall.json'),
 		import('../data/50_pt_games_formatted.json')
 	]).then(([data, barData]) => {
     
@@ -398,17 +398,6 @@ function init() {
 			.attr("class", d => keyFormatter(d.key))
 
 	// ANNOTATION
-	// const segmentAnnotationLine = svgBar.append("line")
-	// 	.attr("x1", xScaleBar(7))
-	// 	.attr("x2", xScaleBar(11))
-	// 	.attr("y1", yScaleBar(1985) + (yScaleBar.bandwidth()/2)) // change this to the max tick value
-	// 	.attr("y2", yScaleBar(1985) + (yScaleBar.bandwidth()/2))
-	// 	.attr("stroke", "#171717")
-	// 	.attr("stroke-width", 1)
-	// 	.attr("class", "static-zero-line")
-	// 	.attr("mix-blend-mode", 'multiply')
-	// 	.attr('marker-end', 'url(#arrow)')
-
 	const segmentAnnotationLine = svgBar.append("line")
 		.attr("x1", xScaleBar(11.5))
 		.attr("x2", xScaleBar(11.5))
