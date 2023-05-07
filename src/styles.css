@@ -97,9 +97,14 @@ h1 {
 
 h3 {
 	margin: 0.25em 0 !important;
-	margin-bottom: 30px  !important;
+	/* margin-bottom: 30px  !important; */
 	text-align:center !important;
 	font-weight: 300 !important;
+}
+
+.byline {
+	font-style: italic !important;;
+	font-weight: 300 !important;;
 }
 
 #intro {
@@ -123,7 +128,7 @@ h3 {
 	text-align: left !important;
 	font-size: 1em !important;
 	font-weight: 600 !important;
-	margin-bottom: 25px !important;
+	margin-bottom: 15px !important;
 }
 
 #outro {
@@ -248,6 +253,9 @@ h3 {
   .segment-annotation {
 	font-size:0.9em !important;
 	font-weight: 400 !important;
+	paint-order: stroke !important;
+	stroke-width: 3 !important;
+	stroke: #FFFFFF !important;
   }
 
 
