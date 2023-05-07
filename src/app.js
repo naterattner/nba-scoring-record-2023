@@ -378,8 +378,16 @@ function init() {
 		.attr("y", 6)
 	
 	segmentAnnotationTextGroup.append("text")
-		.text("represents a player")
+		.text("represents a")
 		.attr("y", +23)
+
+	segmentAnnotationTextGroup.append("text")
+		.text("player. Hover ")
+		.attr("y", +40)
+
+	segmentAnnotationTextGroup.append("text")
+		.text("or tap for detail.")
+		.attr("y", +57)
 
 	d3.selectAll('.dale-ellis')
 		.attr('stroke', '#171717')
