@@ -382,7 +382,7 @@ function init() {
 		.selectAll("g")
 		.data(series)
 		.join("g")
-			.attr("fill", '#80c0c0')
+			.attr("fill", colors.teal4)
 			// #89D5D2
 			.attr('stroke', 'white')
 			.attr('stroke-width', 1.25)
@@ -461,7 +461,7 @@ function init() {
 	//highlight bar segments
 	let hoveredRectClass = keyFormatter(d.key)
 	d3.selectAll('.' + hoveredRectClass)
-    .attr('fill', colors.teal5)
+    .attr('fill', '#8edede')
 
 	//update tooltip
 	console.log(d.key)
@@ -488,7 +488,7 @@ function init() {
 	//remove highlight on bar segments
 	let hoveredRectClass = keyFormatter(d.key)
 	d3.selectAll('.' + hoveredRectClass)
-    .attr('fill', '##80c0c0')
+    .attr('fill', colors.teal4)
 
 	//hide tooltip
 	tooltip
